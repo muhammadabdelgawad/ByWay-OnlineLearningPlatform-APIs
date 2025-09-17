@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="ByWay.Application/ByWay.Application.csproj" />
   <Project Path="ByWay.Domain/ByWay.Domain.csproj" />
   <Project Path="ByWay.Infrastructure/ByWay.Infrastructure.csproj" />
   <Project Path="ByWay/ByWay.APIs.csproj" />
