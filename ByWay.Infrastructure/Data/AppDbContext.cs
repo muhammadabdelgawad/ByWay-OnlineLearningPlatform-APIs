@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ByWay.Infrastructure
+﻿namespace ByWay.Infrastructure.Data
 {
     public class AppDbContext: DbContext
     {
