@@ -8,11 +8,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ByWay.Domain\ByWay.Domain.csproj" />
-    <ProjectReference Include="..\ByWay.Infrastructure\ByWay.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\" />
     <Folder Include="Mapping\" />
     <Folder Include="DTOs\" />
     <Folder Include="Validations\" />
