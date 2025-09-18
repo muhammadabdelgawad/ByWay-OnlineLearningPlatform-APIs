@@ -16,7 +16,7 @@ ByWay- is an ASP.NET Core application designed for managing courses and instruct
 
 ## Technology Stack
 
-*   .NET 7 (Likely, based on project structure and dependencies)
+*   .NET 9 (Likely, based on project structure and dependencies)
 *   ASP.NET Core
 *   Entity Framework Core
 *   SQL Server
@@ -24,7 +24,7 @@ ByWay- is an ASP.NET Core application designed for managing courses and instruct
 
 ## Prerequisites
 
-*   .NET SDK (version 7 or later)
+*   .NET SDK (version 9 or later)
 *   SQL Server instance
 *   An IDE such as Visual Studio or Visual Studio Code
 
