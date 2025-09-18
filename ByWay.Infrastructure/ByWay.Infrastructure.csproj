@@ -20,6 +20,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\Migrations\" />
+    <Folder Include="Data\Configurations\" />
+    <Folder Include="Data\Seed\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
