@@ -1,5 +1,6 @@
-﻿using ByWay.Application.Interfaces;
-using ByWay.Infrastructure.Services;
+﻿using ByWay.Application.Contacts;
+using ByWay.Application.Interfaces;
+using ByWay.Infrastructure.Services.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +15,7 @@ namespace ByWay.Infrastructure
 
 
             services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            
 
 
 
