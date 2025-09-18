@@ -1,4 +1,4 @@
-﻿namespace ByWay.Application.Interfaces
+﻿namespace ByWay.Application.Contracts
 {
     public interface IGenericRepository<T> where T : class
     {

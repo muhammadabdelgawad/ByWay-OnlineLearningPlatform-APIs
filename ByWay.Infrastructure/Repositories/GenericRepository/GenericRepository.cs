@@ -1,4 +1,4 @@
-﻿using ByWay.Application.Interfaces;
+﻿using ByWay.Application.Contracts;
 
 namespace ByWay.Infrastructure.Services.Repositories
 {

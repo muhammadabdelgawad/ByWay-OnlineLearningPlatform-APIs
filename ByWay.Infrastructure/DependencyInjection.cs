@@ -1,5 +1,4 @@
-﻿using ByWay.Application.Contacts;
-using ByWay.Application.Interfaces;
+﻿using ByWay.Application.Contracts;
 using ByWay.Infrastructure.Services.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
