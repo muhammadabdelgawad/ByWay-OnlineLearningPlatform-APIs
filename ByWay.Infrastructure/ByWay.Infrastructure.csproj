@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ByWay.Application\ByWay.Application.csproj" />
     <ProjectReference Include="..\ByWay.Domain\ByWay.Domain.csproj" />
   </ItemGroup>
 
@@ -23,7 +24,6 @@
     <Folder Include="Data\Migrations\" />
     <Folder Include="Data\Configurations\" />
     <Folder Include="Data\Seed\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

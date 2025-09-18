@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using ByWay.Application.Interfaces;
+using ByWay.Infrastructure.Services;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ByWay.Infrastructure
@@ -9,6 +11,13 @@ namespace ByWay.Infrastructure
         {
             services.AddDbContext<AppDbContext>(options =>
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+
+
+
 
             return services;
         }
