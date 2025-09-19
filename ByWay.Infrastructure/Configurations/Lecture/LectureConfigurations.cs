@@ -1,7 +1,4 @@
-﻿using ByWay.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ByWay.Infrastructure.Configurations.Lecture
+﻿namespace ByWay.Infrastructure.Configurations.Lecture
 {
     public class LectureConfigurations : IEntityTypeConfiguration<Lectur>
     {

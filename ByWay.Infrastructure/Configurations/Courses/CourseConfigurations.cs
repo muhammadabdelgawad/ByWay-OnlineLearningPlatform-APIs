@@ -1,8 +1,4 @@
-﻿using ByWay.Domain.Entities;
-using ByWay.Infrastructure.Configurations.Base;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
+﻿
 namespace ByWay.Infrastructure.Configurations.Courses
 {
     public class CourseConfigurations : BaseConfigurations<Course>, IEntityTypeConfiguration<Course>
