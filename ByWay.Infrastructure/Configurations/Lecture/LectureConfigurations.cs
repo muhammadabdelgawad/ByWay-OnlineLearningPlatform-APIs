@@ -1,13 +1,23 @@
 ﻿using ByWay.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ByWay.Infrastructure.Configurations.Lecture
 {
     public class LectureConfigurations : IEntityTypeConfiguration<Lectur>
     {
-        public void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Lectur> builder)
+        public void Configure(EntityTypeBuilder<Lectur> builder)
         {
-            throw new NotImplementedException();
+            builder.Property(l => l.Name)
+                .IsRequired()
+
+                .HasMaxLength(300);
+            builder.Property(l => l.Duration)
+                .IsRequired();
+
+            builder.HasOne(l => l.Course)
+                   .WithMany(c => c.Lectures)
+                   .HasForeignKey(l => l.CourseId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
