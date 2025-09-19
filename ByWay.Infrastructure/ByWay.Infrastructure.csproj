@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Configurations\Instructors\" />
     <Folder Include="Data\Migrations\" />
     <Folder Include="Data\Configurations\" />
     <Folder Include="Data\Seed\" />
