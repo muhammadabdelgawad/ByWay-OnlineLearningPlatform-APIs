@@ -12,7 +12,7 @@ public class Course : BaseEntity
 
     public int CategoryId { get; set; }
     public int InstructorId { get; set; }
-    public ICollection<Lectur> Lectures { get; set; } = new List<Lectur>();
+    public ICollection<CourseSection> Sections { get; set; } = new List<CourseSection>();
 
     public virtual Category Category { get; set; } = null!;
     public virtual Instructor Instructor { get; set; } = null!;

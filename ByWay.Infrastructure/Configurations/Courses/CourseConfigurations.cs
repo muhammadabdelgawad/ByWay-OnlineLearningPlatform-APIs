@@ -37,6 +37,11 @@ namespace ByWay.Infrastructure.Configurations.Courses
                 .WithMany(cat => cat.Courses)
                 .HasForeignKey(c => c.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(c => c.Instructor)
+                .WithMany(i => i.Courses)
+                .HasForeignKey(c => c.InstructorId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
