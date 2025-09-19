@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ByWay.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class IntialCreateMyTablesInDatabase : Migration
+    public partial class InitialCreateNewDataBaseForMyByWayProject : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -43,51 +43,64 @@ namespace ByWay.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BaseEntity",
+                name: "Courses",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseName = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    PictureUrl = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    Price = table.Column<decimal>(type: "decimal(18,2)", precision: 18, scale: 2, nullable: false, defaultValue: 0m),
+                    Description = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: false),
+                    Certification = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: false),
+                    TotalHours = table.Column<double>(type: "float", nullable: false),
+                    Level = table.Column<int>(type: "int", nullable: false),
+                    CategoryId = table.Column<int>(type: "int", nullable: false),
+                    InstructorId = table.Column<int>(type: "int", nullable: false),
                     CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    CourseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Price = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Certification = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TotalHours = table.Column<double>(type: "float", nullable: true),
-                    Level = table.Column<int>(type: "int", nullable: true),
-                    CategoryId = table.Column<int>(type: "int", nullable: true),
-                    InstructorId = table.Column<int>(type: "int", nullable: true),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SectionNumber = table.Column<int>(type: "int", nullable: true),
-                    LecturesCount = table.Column<int>(type: "int", nullable: true),
-                    TotalDuration = table.Column<TimeOnly>(type: "time", nullable: true),
-                    CourseId = table.Column<int>(type: "int", nullable: true)
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BaseEntity", x => x.Id);
+                    table.PrimaryKey("PK_Courses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BaseEntity_BaseEntity_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "BaseEntity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_BaseEntity_Categories_CategoryId",
+                        name: "FK_Courses_Categories_CategoryId",
                         column: x => x.CategoryId,
                         principalTable: "Categories",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_BaseEntity_Instructors_InstructorId",
+                        name: "FK_Courses_Instructors_InstructorId",
                         column: x => x.InstructorId,
                         principalTable: "Instructors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CourseSections",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    SectionNumber = table.Column<int>(type: "int", nullable: false),
+                    LecturesCount = table.Column<int>(type: "int", nullable: false),
+                    TotalDuration = table.Column<TimeOnly>(type: "time", nullable: false),
+                    CourseId = table.Column<int>(type: "int", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UpdatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CourseSections", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CourseSections_Courses_CourseId",
+                        column: x => x.CourseId,
+                        principalTable: "Courses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -105,27 +118,27 @@ namespace ByWay.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_Lectures", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Lectures_BaseEntity_SectionId",
+                        name: "FK_Lectures_CourseSections_SectionId",
                         column: x => x.SectionId,
-                        principalTable: "BaseEntity",
+                        principalTable: "CourseSections",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseEntity_CategoryId",
-                table: "BaseEntity",
+                name: "IX_Courses_CategoryId",
+                table: "Courses",
                 column: "CategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseEntity_CourseId",
-                table: "BaseEntity",
-                column: "CourseId");
+                name: "IX_Courses_InstructorId",
+                table: "Courses",
+                column: "InstructorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BaseEntity_InstructorId",
-                table: "BaseEntity",
-                column: "InstructorId");
+                name: "IX_CourseSections_CourseId",
+                table: "CourseSections",
+                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Lectures_SectionId",
@@ -140,7 +153,10 @@ namespace ByWay.Infrastructure.Migrations
                 name: "Lectures");
 
             migrationBuilder.DropTable(
-                name: "BaseEntity");
+                name: "CourseSections");
+
+            migrationBuilder.DropTable(
+                name: "Courses");
 
             migrationBuilder.DropTable(
                 name: "Categories");
