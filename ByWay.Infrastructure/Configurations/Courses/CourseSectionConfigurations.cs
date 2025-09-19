@@ -1,9 +1,10 @@
 ﻿using ByWay.Domain.Entities;
+using ByWay.Infrastructure.Configurations.Base;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace ByWay.Infrastructure.Configurations.Courses
 {
-    public class CourseSectionConfigurations :IEntityTypeConfiguration<CourseSection>
+    public class CourseSectionConfigurations : BaseConfigurations<CourseSection>
     {
         public void Configure(EntityTypeBuilder<CourseSection> builder)
         {

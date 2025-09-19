@@ -1,7 +1,4 @@
-﻿using ByWay.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ByWay.Infrastructure.Configurations.Instructors
+﻿namespace ByWay.Infrastructure.Configurations.Instructors
 {
     public class InstructorConfigurations : IEntityTypeConfiguration<Instructor>
     {
@@ -22,6 +19,10 @@ namespace ByWay.Infrastructure.Configurations.Instructors
             builder.Property(i => i.PictureUrl)
                         .IsRequired()
                         .HasMaxLength(300);
+            builder.HasMany(i => i.Courses)
+                   .WithOne(c => c.Instructor)
+                   .HasForeignKey(c => c.InstructorId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

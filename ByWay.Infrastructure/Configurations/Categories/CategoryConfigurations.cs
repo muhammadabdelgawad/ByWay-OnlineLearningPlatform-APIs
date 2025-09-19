@@ -1,7 +1,4 @@
-﻿using ByWay.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-namespace ByWay.Infrastructure.Configurations.Categories
+﻿namespace ByWay.Infrastructure.Configurations.Categories
 {
     public class CategoryConfigurations : IEntityTypeConfiguration<Category>
     {
