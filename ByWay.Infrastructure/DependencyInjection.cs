@@ -1,5 +1,6 @@
 ﻿using ByWay.Application.Contracts;
 using ByWay.Infrastructure.Repositories.UnitOfWork;
+using ByWay.Infrastructure.Services.Repositories;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -15,8 +16,7 @@ namespace ByWay.Infrastructure
 
             //  services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
-
-
+            services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
 
 
 
