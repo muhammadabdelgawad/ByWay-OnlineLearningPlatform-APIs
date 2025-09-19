@@ -6,17 +6,18 @@ namespace ByWay.Infrastructure.Configurations.Courses
     {
         public void Configure(EntityTypeBuilder<Course> builder)
         {
-           builder.Property(c=>c.CourseName)
-               .IsRequired()
-                .HasMaxLength(300);
+            builder.Property(c => c.CourseName)
+                .IsRequired()
+                 .HasMaxLength(300);
 
             builder.Property(c => c.PictureUrl)
                 .IsRequired()
                 .HasMaxLength(300);
 
             builder.Property(c => c.Price)
-                .IsRequired()
-                .HasPrecision(6, 2);
+                   .IsRequired()
+                   .HasPrecision(18, 2)
+                   .HasDefaultValue(0);
 
             builder.Property(c => c.Description)
                 .IsRequired()

@@ -9,14 +9,14 @@ namespace ByWay.Infrastructure.Configurations.Lecture
         {
             builder.Property(l => l.Name)
                 .IsRequired()
-
                 .HasMaxLength(300);
+            
             builder.Property(l => l.Duration)
                 .IsRequired();
 
-            builder.HasOne(l => l.Course)
-                   .WithMany(c => c.Lectures)
-                   .HasForeignKey(l => l.CourseId)
+            builder.HasOne(l => l.CourseSection)
+                   .WithMany(cs => cs.Lectures)
+                   .HasForeignKey(l => l.SectionId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
     }
