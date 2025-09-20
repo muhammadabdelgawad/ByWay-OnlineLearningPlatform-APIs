@@ -1,6 +1,4 @@
-﻿using ByWay.Application.Contracts;
-using ByWay.Domain.Entities;
-using ByWay.Infrastructure.Services.Repositories;
+﻿using ByWay.Infrastructure.Services.Repositories;
 
 namespace ByWay.Infrastructure.Repositories.UnitOfWork
 {
