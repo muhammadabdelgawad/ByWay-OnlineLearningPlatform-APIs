@@ -1,4 +1,4 @@
-﻿namespace ByWay.Infrastructure.Configurations.Base
+﻿namespace ByWay.Infrastructure.Data.Configurations.Base
 {
     public class BaseConfigurations<TEntity> : IEntityTypeConfiguration<TEntity>
         where TEntity : BaseEntity

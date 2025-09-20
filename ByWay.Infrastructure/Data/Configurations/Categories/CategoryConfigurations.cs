@@ -1,4 +1,4 @@
-﻿namespace ByWay.Infrastructure.Configurations.Categories
+﻿namespace ByWay.Infrastructure.Data.Configurations.Categories
 {
     public class CategoryConfigurations : IEntityTypeConfiguration<Category>
     {

@@ -1,5 +1,6 @@
-﻿
-namespace ByWay.Infrastructure.Configurations.Courses
+﻿using ByWay.Infrastructure.Data.Configurations.Base;
+
+namespace ByWay.Infrastructure.Data.Configurations.Courses
 {
     public class CourseConfigurations : BaseConfigurations<Course>, IEntityTypeConfiguration<Course>
     {

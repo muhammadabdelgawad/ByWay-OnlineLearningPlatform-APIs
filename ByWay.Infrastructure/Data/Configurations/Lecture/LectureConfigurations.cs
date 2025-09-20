@@ -1,4 +1,6 @@
-﻿namespace ByWay.Infrastructure.Configurations.Lecture
+﻿using ByWay.Infrastructure.Data.Configurations.Base;
+
+namespace ByWay.Infrastructure.Data.Configurations.Lecture
 {
     public class LectureConfigurations : BaseConfigurations<Lectur>, IEntityTypeConfiguration<Lectur>
     {

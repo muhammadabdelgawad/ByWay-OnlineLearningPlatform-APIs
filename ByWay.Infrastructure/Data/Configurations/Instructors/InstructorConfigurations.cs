@@ -1,4 +1,4 @@
-﻿namespace ByWay.Infrastructure.Configurations.Instructors
+﻿namespace ByWay.Infrastructure.Data.Configurations.Instructors
 {
     public class InstructorConfigurations : IEntityTypeConfiguration<Instructor>
     {
