@@ -5,7 +5,7 @@ namespace ByWay.Infrastructure.Configurations.Courses
     {
         public new void Configure(EntityTypeBuilder<Course> builder)
         {
-            // Call base configuration first
+            
             base.Configure(builder);
 
             builder.Property(c => c.CourseName)
@@ -35,7 +35,7 @@ namespace ByWay.Infrastructure.Configurations.Courses
             builder.Property(c => c.Level)
                 .IsRequired();
 
-            
+
             builder.HasOne(c => c.Category)
                 .WithMany(cat => cat.Courses)
                 .HasForeignKey(c => c.CategoryId)
@@ -46,11 +46,15 @@ namespace ByWay.Infrastructure.Configurations.Courses
                 .HasForeignKey(c => c.InstructorId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-           
-            builder.HasMany(c => c.Sections)
+
+            builder.HasMany(c => c.Sections)          
                 .WithOne(cs => cs.Course)
                 .HasForeignKey(cs => cs.CourseId)
                 .OnDelete(DeleteBehavior.Cascade);
+            builder.HasMany(c => c.Lectures)
+                   .WithOne(l => l.Course)
+                   .HasForeignKey(l => l.CourseId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

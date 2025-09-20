@@ -12,8 +12,10 @@
 
   <ItemGroup>
     <Folder Include="Mapping\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Validations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />
   </ItemGroup>
 
 </Project>

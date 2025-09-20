@@ -10,6 +10,8 @@
             
             builder.Property(l => l.Duration)
                 .IsRequired();
+            builder.Property(l => l.IsCompeleted)
+                .HasDefaultValue(false);
 
             builder.HasOne(l => l.CourseSection)
                    .WithMany(cs => cs.Lectures)
