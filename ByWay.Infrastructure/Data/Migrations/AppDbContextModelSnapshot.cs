@@ -199,13 +199,24 @@ namespace ByWay.Infrastructure.Migrations
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<bool>("IsCompeleted")
+                    b.Property<bool>("IsCompleted")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("LectureNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -215,11 +226,16 @@ namespace ByWay.Infrastructure.Migrations
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("CourseId");
-
                     b.HasIndex("SectionId");
+
+                    b.HasIndex("CourseId", "LectureNumber")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Lecture_CourseId_LectureNumber");
 
                     b.ToTable("Lectures");
                 });
@@ -259,7 +275,7 @@ namespace ByWay.Infrastructure.Migrations
                     b.HasOne("ByWay.Domain.Entities.Course", "Course")
                         .WithMany("Lectures")
                         .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("ByWay.Domain.Entities.CourseSection", "CourseSection")
@@ -294,7 +310,7 @@ namespace ByWay.Infrastructure.Migrations
                 {
                     b.Navigation("Courses");
                 });
-#pragma warning restore 612, 618
+         
         }
     }
 }
