@@ -4,6 +4,7 @@ using ByWay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ByWay.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250920010501_AddColumnsAndEditCascade")]
+    partial class AddColumnsAndEditCascade
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -196,11 +199,27 @@ namespace ByWay.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CourseId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<TimeSpan>("Duration")
                         .HasColumnType("time");
 
-                    b.Property<bool>("IsCompeleted")
-                        .HasColumnType("bit");
+                    b.Property<bool>("IsCompleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<bool>("IsDeleted")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(false);
+
+                    b.Property<int>("LectureNumber")
+                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -210,9 +229,16 @@ namespace ByWay.Infrastructure.Migrations
                     b.Property<int>("SectionId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
                     b.HasKey("Id");
 
                     b.HasIndex("SectionId");
+
+                    b.HasIndex("CourseId", "LectureNumber")
+                        .IsUnique()
+                        .HasDatabaseName("IX_Lecture_CourseId_LectureNumber");
 
                     b.ToTable("Lectures");
                 });
@@ -249,11 +275,19 @@ namespace ByWay.Infrastructure.Migrations
 
             modelBuilder.Entity("ByWay.Domain.Entities.Lectur", b =>
                 {
+                    b.HasOne("ByWay.Domain.Entities.Course", "Course")
+                        .WithMany("Lectures")
+                        .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
                     b.HasOne("ByWay.Domain.Entities.CourseSection", "CourseSection")
                         .WithMany("Lectures")
                         .HasForeignKey("SectionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Course");
 
                     b.Navigation("CourseSection");
                 });
@@ -265,6 +299,8 @@ namespace ByWay.Infrastructure.Migrations
 
             modelBuilder.Entity("ByWay.Domain.Entities.Course", b =>
                 {
+                    b.Navigation("Lectures");
+
                     b.Navigation("Sections");
                 });
 
