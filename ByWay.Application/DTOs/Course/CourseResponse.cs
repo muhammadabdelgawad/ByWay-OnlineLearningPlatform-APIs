@@ -11,7 +11,7 @@
         public string Certification { get; set; }
         public double TotalHours { get; set; }
         public string Level { get; set; }
-        public string Category { get; set; }
-        public string Instructor { get; set; }
+        public int Category { get; set; }
+        public int Instructor { get; set; }
     }
 }
