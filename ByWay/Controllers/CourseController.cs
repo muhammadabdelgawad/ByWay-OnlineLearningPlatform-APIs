@@ -38,12 +38,29 @@ namespace ByWay.APIs.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateCourse([FromBody]CreateCourseRequest request)
+        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseRequest request)
         {
             var course = _mapper.Map<Course>(request);
             await _unitOfWork.Courses.AddAsync(course);
             await _unitOfWork.CompleteAsync();
             return Ok("Created Successfuly");
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourseRequest request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest("Course Id Not Exists");
+            }
+            var course = await _unitOfWork.Courses.GetByIdAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(request, course);
+            _unitOfWork.Courses.Update(course);
+            await _unitOfWork.CompleteAsync();
+            return Ok("Updated Successfully");
         }
 
         [HttpDelete("{id}")]

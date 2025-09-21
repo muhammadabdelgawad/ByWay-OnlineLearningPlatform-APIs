@@ -65,9 +65,6 @@ namespace ByWay.APIs.Controllers
         }
 
 
-
-
-
         [HttpDelete]
         [Route("{id}")]
         public async Task<IActionResult> DeleteInstructor(int id)

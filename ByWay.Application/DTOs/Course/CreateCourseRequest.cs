@@ -1,6 +1,4 @@
-﻿using ByWay.Domain.Enums;
-
-namespace ByWay.Application.DTOs.Course
+﻿namespace ByWay.Application.DTOs.Course
 {
     public class CreateCourseRequest
     {

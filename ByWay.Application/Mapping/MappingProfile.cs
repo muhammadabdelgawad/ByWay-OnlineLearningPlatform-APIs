@@ -21,13 +21,16 @@ namespace ByWay.Application.Mapping
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.Courses, o => o.Ignore());
           
-     
+            CreateMap<UpdateInstructorRequest, Instructor>()
+                .ForMember(d => d.Rate, o => o.MapFrom(s => Enum.Parse<Rate>(s.Rate)))
+                .ForMember(d => d.JobTitle, o => o.MapFrom(s => Enum.Parse<JobTitle>(s.JobTitle)))
+                .ForMember(d => d.Courses, o => o.Ignore());  
+ 
             CreateMap<Course, CourseResponse>()
                 .ForMember(d => d.Level, o => o.MapFrom(s => s.Level.ToString()))              
                 .ForMember(d => d.Category, o => o.MapFrom(s => s.Category != null ? s.Category.Name : string.Empty))              
                 .ForMember(d => d.Instructor, o => o.MapFrom(s => s.Instructor != null ? s.Instructor.Name : string.Empty))          
                 .ForMember(d => d.Rate, o => o.MapFrom(s => s.Instructor != null ? s.Instructor.Rate.ToString() : string.Empty));    
-
 
             CreateMap<CreateCourseRequest, Course>()
                 .ForMember(d => d.Level, o => o.MapFrom(s => Enum.Parse<Level>(s.Level)))
