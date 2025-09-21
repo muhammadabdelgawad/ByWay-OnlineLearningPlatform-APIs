@@ -10,7 +10,7 @@ namespace ByWay.Application.Mapping
     {
         public MappingProfile()
         {
-            // Instructor mappings
+           
             CreateMap<Instructor, InstructorResponse>()
                 .ForMember(d => d.Rate, o => o.MapFrom(s => s.Rate.ToString()))
                 .ForMember(d => d.JobTitle, o => o.MapFrom(s => s.JobTitle.ToString()));
@@ -20,40 +20,29 @@ namespace ByWay.Application.Mapping
                 .ForMember(d => d.JobTitle, o => o.MapFrom(s => Enum.Parse<JobTitle>(s.JobTitle)))
                 .ForMember(d => d.Id, o => o.Ignore())
                 .ForMember(d => d.Courses, o => o.Ignore());
-
-            // Course mappings
+          
+     
             CreateMap<Course, CourseResponse>()
                 .ForMember(d => d.Level, o => o.MapFrom(s => s.Level.ToString()))              
                 .ForMember(d => d.Category, o => o.MapFrom(s => s.Category != null ? s.Category.Name : string.Empty))              
                 .ForMember(d => d.Instructor, o => o.MapFrom(s => s.Instructor != null ? s.Instructor.Name : string.Empty))          
                 .ForMember(d => d.Rate, o => o.MapFrom(s => s.Instructor != null ? s.Instructor.Rate.ToString() : string.Empty));    
 
+
             CreateMap<CreateCourseRequest, Course>()
                 .ForMember(d => d.Level, o => o.MapFrom(s => Enum.Parse<Level>(s.Level)))
-                // CRITICAL: Ignore the foreign key IDs to prevent default 0 values
-                .ForMember(d => d.CategoryId, o => o.Ignore())     
-                .ForMember(d => d.InstructorId, o => o.Ignore())
-                // Ignore navigation properties
                 .ForMember(d => d.Category, o => o.Ignore())                                  
                 .ForMember(d => d.Instructor, o => o.Ignore())
-                // Ignore collections                                
                 .ForMember(d => d.Sections, o => o.Ignore())
                 .ForMember(d => d.Lectures, o => o.Ignore())
-                // Ignore BaseEntity properties
                 .ForMember(d => d.Id, o => o.Ignore());
 
             CreateMap<UpdateCourseRequest, Course>()
                 .ForMember(d => d.Level, o => o.MapFrom(s => Enum.Parse<Level>(s.Level)))
-                // CRITICAL: Ignore the foreign key IDs to prevent default 0 values
-                .ForMember(d => d.CategoryId, o => o.Ignore())     
-                .ForMember(d => d.InstructorId, o => o.Ignore())
-                // Ignore navigation properties
                 .ForMember(d => d.Category, o => o.Ignore())                                  
                 .ForMember(d => d.Instructor, o => o.Ignore())
-                // Ignore collections                        
                 .ForMember(d => d.Sections, o => o.Ignore())
                 .ForMember(d => d.Lectures, o => o.Ignore())
-                // Ignore BaseEntity properties
                 .ForMember(d => d.Id, o => o.Ignore());
         }
     }
