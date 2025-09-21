@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ByWay.Application.Contracts;
 using ByWay.Application.DTOs.Instructor;
+using ByWay.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,6 +19,44 @@ namespace ByWay.APIs.Controllers
         {
             var result = _mapper.Map<IEnumerable<InstructorResponse>>(await _unitOfWork.Instructors.GetAllAsync());
             return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetInstructorById(int id)
+        {
+            var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            var result = _mapper.Map<InstructorResponse>(instructor);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateInstructor([FromBody] CreateInstructorRequest request)
+        {
+            var instructor = _mapper.Map<Instructor>(request);
+
+            await _unitOfWork.Instructors.AddAsync(instructor);
+            await _unitOfWork.CompleteAsync();
+            
+            return Ok(request);
+        }
+
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeleteInstructor(int id)
+        {
+            var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            _unitOfWork.Instructors.Delete(instructor);
+            await _unitOfWork.CompleteAsync();
+            return Ok("Deleted Successfuly");
         }
     }
 }
