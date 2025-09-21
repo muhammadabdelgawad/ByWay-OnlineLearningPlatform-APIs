@@ -44,9 +44,32 @@ namespace ByWay.APIs.Controllers
             return Ok(request);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateInstructor(int id, [FromBody] UpdateInstructorRequest request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest(" Instructor Id Not Exists");
+            }
+            var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(request, instructor);
+            _unitOfWork.Instructors.Update(instructor);
+            await _unitOfWork.CompleteAsync();
+            var result = _mapper.Map<InstructorResponse>(instructor);
+            return Ok(result);
+        }
+
+
+
+
 
         [HttpDelete]
-        [Route("{id:int}")]
+        [Route("{id}")]
         public async Task<IActionResult> DeleteInstructor(int id)
         {
             var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
