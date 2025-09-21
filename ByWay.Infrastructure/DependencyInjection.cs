@@ -1,4 +1,4 @@
-﻿using ByWay.Application.Contracts;
+﻿using ByWay.Application.Mapping;
 using ByWay.Infrastructure.Repositories.UnitOfWork;
 using ByWay.Infrastructure.Services.Repositories;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +17,7 @@ namespace ByWay.Infrastructure
             //  services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
+            services.AddAutoMapper(typeof(MappingProfile));
 
 
 
