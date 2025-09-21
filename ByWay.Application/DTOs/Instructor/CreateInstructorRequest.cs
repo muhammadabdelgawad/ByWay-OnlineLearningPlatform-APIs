@@ -1,6 +1,4 @@
-﻿using ByWay.Domain.Enums;
-
-namespace ByWay.Application.DTOs.Instructor
+﻿namespace ByWay.Application.DTOs.Instructor
 {
     public class CreateInstructorRequest
     {
