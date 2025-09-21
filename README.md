@@ -2,30 +2,54 @@
 
 ## Description
 
-ByWay- is an ASP.NET Core application designed for managing courses and instructors, potentially for an online learning platform. It features a Domain-Driven Design (DDD) approach, separating concerns into Domain, Application, and Infrastructure layers. The application utilizes Entity Framework Core for data access and provides a basic API structure.
+This repository contains the codebase for the ByWay application, an ASP.NET Core Web API designed for managing online courses and instructors. It provides functionalities for creating, reading, updating, and deleting (CRUD) courses and instructors, leveraging a layered architecture with domain entities, application contracts, and infrastructure services.
 
 ## Features and Functionality
 
-*   **Course Management:**  Create, read, update, and delete course information, including name, description, price, certification, total hours, level, category, and instructor.
-*   **Instructor Management:** Create, read, update, and delete instructor information, including name, description, picture URL, rate, and job title.
-*   **Category Management:** (Implicit, based on `Category.cs`) Defines categories for courses.
-*   **Generic Repository Pattern:** Implements a generic repository for data access abstraction.
-*   **Unit of Work Pattern:** Manages database transactions and provides access to repositories.
-*   **Entity Framework Core:**  Provides an ORM for interacting with a SQL Server database.
-*   **API Endpoints:** Includes a basic `WeatherForecastController` as a placeholder/example.
+*   **Course Management:**
+    *   Create new courses with details such as name, picture URL, price, description, certification, total hours, level, category, and instructor.
+    *   Retrieve a list of all courses.
+    *   Retrieve a specific course by its ID.
+    *   Update existing course information.
+    *   Delete courses.
+
+*   **Instructor Management:**
+    *   Add new instructors with details such as name, description, picture URL, rate, and job title.
+    *   Retrieve a list of all instructors.
+    *   Retrieve a specific instructor by their ID.
+    *   Update existing instructor information.
+    *   Delete instructors.
+
+*   **API Endpoints:**
+    *   Well-defined API endpoints for interacting with courses and instructors.  See API Documentation below.
+
+*   **Data Validation:**
+    *   Utilizes FluentValidation for request validation, ensuring data integrity.  See `/ByWay.Application/Validations` directory.
+
+*   **Object-Relational Mapping (ORM):**
+    *   Uses Entity Framework Core (EF Core) for interacting with the database.
+
+*   **Dependency Injection:**
+    *   Employs dependency injection for loose coupling and testability.
+
+*   **AutoMapper:**
+    *   Uses AutoMapper to map between Domain Entities and DTOs.
+    *   Mapping Profiles are found in `/ByWay.Application/Mapping/MappingProfile.cs`
 
 ## Technology Stack
 
-*   .NET 9 (Likely, based on project structure and dependencies)
-*   ASP.NET Core
-*   Entity Framework Core
-*   SQL Server
-*   C#
+*   **ASP.NET Core Web API:**  Framework for building the API.
+*   **Entity Framework Core (EF Core):** ORM for database interaction.
+*   **SQL Server:** Database system.
+*   **AutoMapper:**  Object-object mapper.
+*   **FluentValidation:** Validation library.
+*   **C#:** Programming language.
+*   **.NET 9.0:**  Runtime environment.  Verified from the migrations class.
 
 ## Prerequisites
 
-*   .NET SDK (version 9 or later)
-*   SQL Server instance
+*   [.NET SDK 9.0 or later](https://dotnet.microsoft.com/en-us/download)
+*   SQL Server instance (local or remote)
 *   An IDE such as Visual Studio or Visual Studio Code
 
 ## Installation Instructions
@@ -33,18 +57,19 @@ ByWay- is an ASP.NET Core application designed for managing courses and instruct
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/muhammadabdelgawad/ByWay-
+    git clone https://github.com/muhammadabdelgawad/ByWay-.git
     cd ByWay-
     ```
 
-2.  **Update the Database Connection String:**
+2.  **Update the database connection string:**
 
-    Modify the connection string in the `appsettings.json` file of the main project (`ByWay`) to point to your SQL Server instance.  Example:
+    *   Open the `appsettings.json` file in the `ByWay` directory.
+    *   Modify the `DefaultConnection` string to point to your SQL Server instance.
 
     ```json
     {
       "ConnectionStrings": {
-        "DefaultConnection": "Server=your_server;Database=ByWayDB;Trusted_Connection=True;MultipleActiveResultSets=true"
+        "DefaultConnection": "Server=your_server;Database=ByWayDB;User Id=your_user_id;Password=your_password;TrustServerCertificate=True;"
       },
       "Logging": {
         "LogLevel": {
@@ -56,90 +81,125 @@ ByWay- is an ASP.NET Core application designed for managing courses and instruct
     }
     ```
 
-    Replace `your_server` with the actual server name or address. Ensure that the database `ByWayDB` exists or will be created by EF Core Migrations.
+    Replace `your_server`, `ByWayDB`, `your_user_id`, and `your_password` with your actual SQL Server details. Make sure that  `TrustServerCertificate=True;` is used for a local dev SQL Server.
 
-3.  **Apply Entity Framework Core Migrations:**
+3.  **Apply database migrations:**
 
-    Navigate to the `ByWay.Infrastructure` directory in the command line.
+    *   Open a terminal or command prompt in the `ByWay.Infrastructure` directory.
+    *   Run the following command to create the database and apply the migrations:
 
     ```bash
-    cd ByWay.Infrastructure
+    dotnet ef database update
     ```
 
-    Run the following commands to add a migration (if no existing migration exists) and update the database:
+    This command assumes you have the EF Core tools installed globally. If not, you may need to install them:
 
     ```bash
-    dotnet ef migrations add InitialCreate --project ByWay.Infrastructure --startup-project ../ByWay
-    dotnet ef database update --project ByWay.Infrastructure --startup-project ../ByWay
+    dotnet tool install --global dotnet-ef
     ```
 
-    This will create the necessary database tables based on the entities defined in the `ByWay.Domain` project.
+4.  **Build and run the application:**
 
-4.  **Build and Run the Application:**
-
-    Navigate back to the root directory (`ByWay`)
+    *   Navigate to the `ByWay` directory.
+    *   Run the following command to build and start the application:
 
     ```bash
-    cd ..
-    dotnet build
     dotnet run
     ```
 
-    This will start the ASP.NET Core application.  By default, it will run on `https://localhost:7000` and `http://localhost:5000`.
+    The application will start, and you can access the API endpoints through the specified port (typically `https://localhost:7094` or `http://localhost:5294`).  See the console output after running `dotnet run`.
 
 ## Usage Guide
 
-1.  **Access the API:**
+Once the application is running, you can use tools like Postman, Swagger UI, or any HTTP client to interact with the API endpoints.
 
-    Open your web browser and navigate to `https://localhost:7000/swagger` (or `http://localhost:5000/swagger` if using HTTP) to access the Swagger UI.  This will allow you to explore the available API endpoints and test them.
+### Example API Requests
 
-2.  **Explore the API Endpoints:**
+#### Get All Courses
 
-    The Swagger UI will display the available API endpoints, including the `WeatherForecastController`.  More endpoints would need to be added for Course and Instructor management.  Example endpoints (that would need to be created in a new controller) :
+```http
+GET /api/Course
+```
 
-    *   `GET /Courses`:  Retrieves all courses.
-    *   `GET /Courses/{id}`: Retrieves a specific course by ID.
-    *   `POST /Courses`: Creates a new course.
-    *   `PUT /Courses/{id}`: Updates an existing course.
-    *   `DELETE /Courses/{id}`: Deletes a course.
-    *   `GET /Instructors`: Retrieves all instructors.
-    *   `GET /Instructors/{id}`: Retrieves a specific instructor by ID.
-    *   `POST /Instructors`: Creates a new instructor.
-    *   `PUT /Instructors/{id}`: Updates an existing instructor.
-    *   `DELETE /Instructors/{id}`: Deletes an instructor.
+#### Get Course by ID
+
+```http
+GET /api/Course/{id}
+```
+
+#### Create a New Course
+
+```http
+POST /api/Course
+Content-Type: application/json
+
+{
+  "courseName": "Introduction to C#",
+  "pictureUrl": "https://example.com/csharp.jpg",
+  "price": 99.99,
+  "description": "A beginner-friendly course on C# programming.",
+  "rate": "FiveStar",
+  "certification": "Certified C# Developer",
+  "totalHours": 40,
+  "level": "Beginner",
+  "categoryId": 1,
+  "instructorId": 1
+}
+```
+
+#### Update an Existing Course
+
+```http
+PUT /api/Course/{id}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "courseName": "Advanced C#",
+  "pictureUrl": "https://example.com/advanced-csharp.jpg",
+  "price": 149.99,
+  "description": "An advanced course on C# programming.",
+  "rate": "FiveStar",
+  "certification": "Certified C# Developer",
+  "totalHours": 60,
+  "level": "Advanced",
+  "categoryId": 1,
+  "instructorId": 1
+}
+```
+
+#### Delete a Course
+
+```http
+DELETE /api/Course/{id}
+```
 
 ## API Documentation
 
-The API documentation can be found using Swagger UI at `/swagger` endpoint once the application is running.
+The API provides endpoints for managing courses and instructors. Here's a summary of the available endpoints:
 
-Based on the existing files the following entities/models will have API endpoints (examples only, actual endpoints need to be created):
+### Course Controller (`/api/Course`)
 
-*   **Courses:**
-    *   `CourseName`: string
-    *   `PictureUrl`: string
-    *   `Price`: decimal
-    *   `Description`: string
-    *   `Certification`: string
-    *   `TotalHours`: double
-    *   `Level`: enum (Beginner, Intermediate, Advanced, All)
-    *   `CategoryId`: int
-    *   `InstructorId`: int
-*   **Instructors:**
-    *   `Name`: string
-    *   `Description`: string
-    *   `PictureUrl`: string
-    *   `Rate`: enum (OneStar, TwoStar, ThreeStar, FourStar, FiveStar)
-    *   `JobTitle`: enum (FullstackDeveloper, BackendDeveloper, FrontendDeveloper, UXUIDesigner)
+*   **GET**: Retrieves all courses.
+*   **GET /{id}**: Retrieves a specific course by ID.
+*   **POST**: Creates a new course.  Requires a JSON body conforming to the `CreateCourseRequest` DTO defined in `/ByWay.Application/DTOs/Course/CreateCourseRequest.cs`.
+*   **PUT /{id}**: Updates an existing course. Requires a JSON body conforming to the `UpdateCourseRequest` DTO defined in `/ByWay.Application/DTOs/Course/UpdateCourseRequest.cs`.
+*   **DELETE /{id}**: Deletes a course.
+
+### Instructor Controller (`/api/Instuctor`)
+
+*   **GET**: Retrieves all instructors.
+*   **GET /{id}**: Retrieves a specific instructor by ID.
+*   **POST**: Creates a new instructor. Requires a JSON body conforming to the `CreateInstructorRequest` DTO defined in `/ByWay.Application/DTOs/Instructor/CreateInstructorRequest.cs`.
+*   **PUT /{id}**: Updates an existing instructor. Requires a JSON body conforming to the `UpdateInstructorRequest` DTO defined in `/ByWay.Application/DTOs/Instructor/UpdateInstructorRequest.cs`.
+*   **DELETE /{id}**: Deletes an instructor.
 
 ## Contributing Guidelines
 
+Contributions are welcome! Please follow these guidelines:
+
 1.  Fork the repository.
 2.  Create a new branch for your feature or bug fix.
-3.  Make your changes and commit them with descriptive commit messages.
-4.  Test your changes thoroughly.
-5.  Submit a pull request to the `master` branch.
-
-## License Information
-
-No license is specified in the repository.  Please add a license file (e.g., `LICENSE.txt`) with the appropriate license text (e.g., MIT, Apache 2.0, GPL) to specify how others can use your code.  For example, to use MIT license, add this in LICENSE.txt:
+3.  Make your changes and ensure they are well-tested.
+4.  Submit a pull request with a clear description of your changes.
 
