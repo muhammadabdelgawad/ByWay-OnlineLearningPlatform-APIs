@@ -31,7 +31,7 @@ namespace ByWay.APIs.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourseById(int id)
         {
-            var course = _mapper.Map<CourseResponse>(_unitOfWork.Courses.GetByIdAsync(id));
+            var course = _mapper.Map<CourseResponse>(await _unitOfWork.Courses.GetByIdAsync(id));
             return Ok(course);
         }
 
@@ -44,6 +44,19 @@ namespace ByWay.APIs.Controllers
             await _unitOfWork.Courses.AddAsync(course);
             await _unitOfWork.CompleteAsync();
             return Ok("Created Successfuly");
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteCourse(int id) 
+        {
+            var course = await _unitOfWork.Courses.GetByIdAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+             _unitOfWork.Courses.Delete(course);
+            await _unitOfWork.CompleteAsync();
+            return Ok("Deleted Successfully");
         }
     }
 }
