@@ -10,21 +10,51 @@ namespace ByWay.Application.Mapping
     {
         public MappingProfile()
         {
-            
+            // Instructor mappings
             CreateMap<Instructor, InstructorResponse>()
-                .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => src.Rate.ToString()))
-                .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => src.JobTitle.ToString()));
+                .ForMember(d => d.Rate, o => o.MapFrom(s => s.Rate.ToString()))
+                .ForMember(d => d.JobTitle, o => o.MapFrom(s => s.JobTitle.ToString()));
 
             CreateMap<CreateInstructorRequest, Instructor>()
-                .ForMember(dest => dest.Rate, opt => opt.MapFrom(src => Enum.Parse<Rate>(src.Rate)))
-                .ForMember(dest => dest.JobTitle, opt => opt.MapFrom(src => Enum.Parse<JobTitle>(src.JobTitle)))
-                .ForMember(dest => dest.Id, opt => opt.Ignore())
-                .ForMember(dest => dest.Courses, opt => opt.Ignore());
+                .ForMember(d => d.Rate, o => o.MapFrom(s => Enum.Parse<Rate>(s.Rate)))
+                .ForMember(d => d.JobTitle, o => o.MapFrom(s => Enum.Parse<JobTitle>(s.JobTitle)))
+                .ForMember(d => d.Id, o => o.Ignore())
+                .ForMember(d => d.Courses, o => o.Ignore());
 
-          
-            CreateMap<Course, CourseResponse>();
-            CreateMap<CreateCourseRequest, Course>();
-            CreateMap<UpdateCourseRequest, Course>();
+            // Course mappings
+            CreateMap<Course, CourseResponse>()
+                .ForMember(d => d.Level, o => o.MapFrom(s => s.Level.ToString()))              
+                .ForMember(d => d.Category, o => o.MapFrom(s => s.Category != null ? s.Category.Name : string.Empty))              
+                .ForMember(d => d.Instructor, o => o.MapFrom(s => s.Instructor != null ? s.Instructor.Name : string.Empty))          
+                .ForMember(d => d.Rate, o => o.MapFrom(s => s.Instructor != null ? s.Instructor.Rate.ToString() : string.Empty));    
+
+            CreateMap<CreateCourseRequest, Course>()
+                .ForMember(d => d.Level, o => o.MapFrom(s => Enum.Parse<Level>(s.Level)))
+                // CRITICAL: Ignore the foreign key IDs to prevent default 0 values
+                .ForMember(d => d.CategoryId, o => o.Ignore())     
+                .ForMember(d => d.InstructorId, o => o.Ignore())
+                // Ignore navigation properties
+                .ForMember(d => d.Category, o => o.Ignore())                                  
+                .ForMember(d => d.Instructor, o => o.Ignore())
+                // Ignore collections                                
+                .ForMember(d => d.Sections, o => o.Ignore())
+                .ForMember(d => d.Lectures, o => o.Ignore())
+                // Ignore BaseEntity properties
+                .ForMember(d => d.Id, o => o.Ignore());
+
+            CreateMap<UpdateCourseRequest, Course>()
+                .ForMember(d => d.Level, o => o.MapFrom(s => Enum.Parse<Level>(s.Level)))
+                // CRITICAL: Ignore the foreign key IDs to prevent default 0 values
+                .ForMember(d => d.CategoryId, o => o.Ignore())     
+                .ForMember(d => d.InstructorId, o => o.Ignore())
+                // Ignore navigation properties
+                .ForMember(d => d.Category, o => o.Ignore())                                  
+                .ForMember(d => d.Instructor, o => o.Ignore())
+                // Ignore collections                        
+                .ForMember(d => d.Sections, o => o.Ignore())
+                .ForMember(d => d.Lectures, o => o.Ignore())
+                // Ignore BaseEntity properties
+                .ForMember(d => d.Id, o => o.Ignore());
         }
     }
 }
