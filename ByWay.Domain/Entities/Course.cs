@@ -7,7 +7,7 @@ public class Course : BaseEntity
     public string Description { get; set; }
     public string Certification { get; set; }
     public double TotalHours { get; set; }
-
+    public Rate Rate { get; set; }
     public Level Level { get; set; }
 
     public int CategoryId { get; set; }
