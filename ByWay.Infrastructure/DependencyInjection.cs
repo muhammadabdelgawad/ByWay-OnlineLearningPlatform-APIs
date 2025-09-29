@@ -1,6 +1,8 @@
 ﻿using ByWay.Application.Mapping;
+using ByWay.Infrastructure.Identity;
 using ByWay.Infrastructure.Repositories.UnitOfWork;
 using ByWay.Infrastructure.Services.Repositories;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,12 +16,15 @@ namespace ByWay.Infrastructure
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
 
-            //  services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+            
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
             services.AddAutoMapper(typeof(MappingProfile));
 
+            //Identity
 
+            services.AddDbContext<IdentityAppDbContext>(options =>
+             options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
 
             return services;
         }
