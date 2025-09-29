@@ -2,7 +2,6 @@
 using ByWay.Infrastructure.Identity;
 using ByWay.Infrastructure.Repositories.UnitOfWork;
 using ByWay.Infrastructure.Services.Repositories;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

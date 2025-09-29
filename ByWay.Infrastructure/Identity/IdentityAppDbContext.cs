@@ -1,4 +1,5 @@
 ﻿using ByWay.Domain.Entities.Identity;
+using ByWay.Infrastructure.Identity.Configurations;
 
 namespace ByWay.Infrastructure.Identity
 {
@@ -12,7 +13,8 @@ namespace ByWay.Infrastructure.Identity
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationUserConfigurations).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CourseEnrollmentConfigurations).Assembly);
         }
 
         public DbSet<ApplicationUser>Users { get; set; }

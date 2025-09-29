@@ -17,17 +17,20 @@ namespace ByWay.Infrastructure.Identity.Configurations
                 .HasMaxLength(50);
 
             builder.Property(u => u.PictureUrl)
-                 .HasMaxLength(500);
+                .HasMaxLength(500);
+
+            builder.Property(u => u.CreatedDate)
+                .IsRequired()
+                .HasDefaultValueSql("GETUTCDATE()");
 
             builder.Property(u => u.IsActive)
                 .IsRequired()
                 .HasDefaultValue(true);
 
             builder.HasMany(u => u.CourseEnrollments)
-              .WithOne(c => c.User)
-              .HasForeignKey(c => c.User)
-              .OnDelete(DeleteBehavior.Cascade);
+                .WithOne(ce => ce.User)
+                .HasForeignKey(ce => ce.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
-    
 }
