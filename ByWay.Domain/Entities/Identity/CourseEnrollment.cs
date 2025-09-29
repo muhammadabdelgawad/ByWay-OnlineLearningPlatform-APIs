@@ -9,6 +9,6 @@
         public DateTime? CompletionDate { get; set; }
 
         public virtual ApplicationUser User { get; set; } = null!;
-        public virtual Course Course { get; set; } = null!;
+        
     }
 }
