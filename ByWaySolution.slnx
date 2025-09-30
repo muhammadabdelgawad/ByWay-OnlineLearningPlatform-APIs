@@ -1,4 +1,5 @@
 <Solution>
+  <Project Path="ByWay.Application.Abstractions/ByWay.Application.Abstraction.csproj" Id="7e7988c6-e747-42fe-aada-77421f1dfdd7" />
   <Project Path="ByWay.Application/ByWay.Application.csproj" />
   <Project Path="ByWay.Domain/ByWay.Domain.csproj" />
   <Project Path="ByWay.Infrastructure/ByWay.Infrastructure.csproj" />

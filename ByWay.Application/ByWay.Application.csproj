@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ByWay.Application.Abstractions\ByWay.Application.Abstraction.csproj" />
     <ProjectReference Include="..\ByWay.Domain\ByWay.Domain.csproj" />
   </ItemGroup>
 

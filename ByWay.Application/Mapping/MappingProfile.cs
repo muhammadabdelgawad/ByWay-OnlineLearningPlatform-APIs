@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using ByWay.Application.DTOs.Course;
-using ByWay.Application.DTOs.Instructor;
+using ByWay.Application.Abstraction.DTOs.Course;
+using ByWay.Application.Abstraction.DTOs.Instructor;
 using ByWay.Domain.Entities;
 using ByWay.Domain.Enums;
 
