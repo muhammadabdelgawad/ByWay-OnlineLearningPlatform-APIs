@@ -21,7 +21,7 @@ namespace ByWay.Infrastructure
             
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
-            services.AddAutoMapper(typeof(MappingProfile));
+            
 
             //Identity
 

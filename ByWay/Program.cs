@@ -1,3 +1,4 @@
+using ByWay.Application;
 using ByWay.Domain.Entities.Identity;
 using ByWay.Infrastructure;
 using ByWay.Infrastructure.Identity;
@@ -12,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityAppDbContext>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 var app = builder.Build();
 
