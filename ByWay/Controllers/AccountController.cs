@@ -16,9 +16,7 @@ namespace ByWay.APIs.Controllers
         public async Task<ActionResult> Register(RegisterDto registerDto) 
         {
             var user = await authService.RegisterAsync(registerDto);
-            if (user is null)
-                return BadRequest(user);
-
+           
             return Ok(user);
         }
 
