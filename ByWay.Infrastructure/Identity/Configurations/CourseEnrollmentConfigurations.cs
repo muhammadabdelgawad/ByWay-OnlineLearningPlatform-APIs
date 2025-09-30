@@ -10,10 +10,11 @@ namespace ByWay.Infrastructure.Identity.Configurations
         {
             builder.ToTable("CourseEnrollments");
 
-            
-            builder.HasKey(ce => new { ce.UserId, ce.CourseId });
+          
+            builder.HasKey(ce => ce.Id);
+            builder.Property(ce => ce.Id).ValueGeneratedOnAdd();
 
-            
+          
             builder.Property(ce => ce.UserId)
                 .IsRequired()
                 .HasMaxLength(450); 
@@ -32,20 +33,20 @@ namespace ByWay.Infrastructure.Identity.Configurations
             builder.Property(ce => ce.CompletionDate)
                 .IsRequired(false);
 
-           
             builder.HasOne(ce => ce.User)
                 .WithMany(u => u.CourseEnrollments)
                 .HasForeignKey(ce => ce.UserId) 
                 .OnDelete(DeleteBehavior.Cascade);
 
-          
-
-           
+            
             builder.HasIndex(ce => ce.EnrollmentDate)
                 .HasDatabaseName("IX_CourseEnrollment_EnrollmentDate");
 
             builder.HasIndex(ce => new { ce.UserId, ce.IsCompleted })
                 .HasDatabaseName("IX_CourseEnrollment_UserId_IsCompleted");
+
+            builder.HasIndex(ce => ce.CourseId)
+                .HasDatabaseName("IX_CourseEnrollment_CourseId");
         }
     }
 }
