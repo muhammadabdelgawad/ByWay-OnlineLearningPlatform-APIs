@@ -1,3 +1,4 @@
+using ByWay.APIs.Extensions;
 using ByWay.Application;
 using ByWay.Domain.Entities.Identity;
 using ByWay.Infrastructure;
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityAppDbContext>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);
 builder.Services.AddFluentValidationConf();
 builder.Services.AddApplicationServices();
 
