@@ -1,4 +1,7 @@
+using ByWay.Domain.Entities.Identity;
 using ByWay.Infrastructure;
+using ByWay.Infrastructure.Identity;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+    .AddEntityFrameworkStores<IdentityAppDbContext>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
