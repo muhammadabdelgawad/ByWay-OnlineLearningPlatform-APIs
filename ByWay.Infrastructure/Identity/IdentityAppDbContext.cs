@@ -1,9 +1,10 @@
 ﻿using ByWay.Domain.Entities.Identity;
 using ByWay.Infrastructure.Identity.Configurations;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace ByWay.Infrastructure.Identity
 {
-    public class IdentityAppDbContext :DbContext
+    public class IdentityAppDbContext :IdentityDbContext<ApplicationUser>
     {
         public IdentityAppDbContext(DbContextOptions<IdentityAppDbContext> options)
             :base(options)

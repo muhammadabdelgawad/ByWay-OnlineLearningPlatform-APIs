@@ -7,12 +7,9 @@ namespace ByWay.Infrastructure.Identity.Configurations
         public void Configure(EntityTypeBuilder<ApplicationUser> builder)
         {
             builder.ToTable("Users");
-
-            builder.Property(u => u.FirstName)
-                .IsRequired()
-                .HasMaxLength(50);
-
-            builder.Property(u => u.LastName)
+           
+            
+            builder.Property(u => u.DisplayName)
                 .IsRequired()
                 .HasMaxLength(50);
 
@@ -22,6 +19,9 @@ namespace ByWay.Infrastructure.Identity.Configurations
             builder.Property(u => u.CreatedDate)
                 .IsRequired()
                 .HasDefaultValueSql("GETUTCDATE()");
+
+            builder.Property(u => u.LastLoginDate)
+                .IsRequired(false);
 
             builder.Property(u => u.IsActive)
                 .IsRequired()
