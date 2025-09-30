@@ -3,8 +3,6 @@ using ByWay.Application.Abstraction.DTOs.Auth;
 using ByWay.Application.Contracts;
 using ByWay.Application.Services.Auth;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ByWay.APIs.Controllers
