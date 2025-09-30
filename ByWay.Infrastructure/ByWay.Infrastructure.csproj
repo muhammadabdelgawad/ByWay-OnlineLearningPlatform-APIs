@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ByWay.Application.Abstractions\ByWay.Application.Abstraction.csproj" />
     <ProjectReference Include="..\ByWay.Application\ByWay.Application.csproj" />
     <ProjectReference Include="..\ByWay.Domain\ByWay.Domain.csproj" />
   </ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace ByWay.Application.DTOs.Instructor
+﻿namespace ByWay.Application.Abstraction.DTOs.Instructor
 {
     public class CreateInstructorRequest
     {

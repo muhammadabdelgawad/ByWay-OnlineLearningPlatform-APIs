@@ -1,4 +1,4 @@
-﻿namespace ByWay.Application.DTOs.Course
+﻿namespace ByWay.Application.Abstraction.DTOs.Course
 {
     public class CreateCourseRequest
     {

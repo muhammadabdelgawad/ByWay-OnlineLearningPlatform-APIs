@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
+using ByWay.Application.Abstraction.DTOs.Course;
 using ByWay.Application.Contracts;
-using ByWay.Application.DTOs.Course;
 using ByWay.Domain.Entities;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
 
 namespace ByWay.APIs.Controllers
 {

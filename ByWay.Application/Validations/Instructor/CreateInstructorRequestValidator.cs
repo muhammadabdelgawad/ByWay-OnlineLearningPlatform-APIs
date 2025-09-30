@@ -1,4 +1,4 @@
-﻿using ByWay.Application.DTOs.Instructor;
+﻿using ByWay.Application.Abstraction.DTOs.Instructor;
 using FluentValidation;
 
 namespace ByWay.Application.Validations.Instructor

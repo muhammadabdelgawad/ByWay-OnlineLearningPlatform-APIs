@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
+using ByWay.Application.Abstraction.DTOs.Instructor;
 using ByWay.Application.Contracts;
-using ByWay.Application.DTOs.Instructor;
 using ByWay.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
