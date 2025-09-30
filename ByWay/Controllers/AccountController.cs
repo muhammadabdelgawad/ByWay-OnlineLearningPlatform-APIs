@@ -21,7 +21,7 @@ namespace ByWay.APIs.Controllers
             return Ok(user);
         }
 
-        // [Authorize]
+        [Authorize]
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDto loginDto)
         {
@@ -29,7 +29,7 @@ namespace ByWay.APIs.Controllers
             return Ok(user);
         }
 
-       // [Authorize]
+        [Authorize]
         [HttpGet("currentUser")]
         public async Task<ActionResult> GetCurrentUser()
         {

@@ -33,9 +33,12 @@ namespace ByWay.Application.Services.Auth
             };
 
             var result = await userManager.CreateAsync(user, registerDto.Password);
-            if(!result.Succeeded)
-                throw new Exception("Failed to create user, please try again");
-
+            if (!result.Succeeded)
+            //  throw new Exception("Failed to create user, please try again");
+              {
+                  var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                  throw new Exception($"Failed to create user: {errors}");
+              }
             var response= new UserDto
             {
                 Id = user.Id,
