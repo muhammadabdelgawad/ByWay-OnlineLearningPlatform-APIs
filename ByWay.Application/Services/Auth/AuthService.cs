@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
 
@@ -48,33 +47,54 @@ namespace ByWay.Application.Services.Auth
 
         }
 
-
-
-
-        public Task<UserDto> LoginAsync(LoginDto loginDto)
+        public async Task<UserDto> LoginAsync(LoginDto loginDto)
         {
-            throw new NotImplementedException();
+            var user = await userManager.FindByEmailAsync(loginDto.Email);
+            if (user == null)
+                throw new UnauthorizedAccessException("Invalid email or password");
+            
+            var result = await userManager.CheckPasswordAsync(user, loginDto.Password);
+            if (!result)
+                throw new UnauthorizedAccessException("Invalid email or password");
+        
+            if (!user.IsActive)
+                throw new UnauthorizedAccessException("Account is deactivated");
+            
+            var response = new UserDto
+            {
+                Id = user.Id,
+                DisplayName = user.DisplayName,
+                Email = user.Email!,
+                Token = await GenerateTokenAsync(user)
+            };
+            
+            return response;
         }
 
-        public Task<UserDto> GetCurrentUserAsync(ClaimsPrincipal claimsPrincipal)
+        public async Task<UserDto> GetCurrentUserAsync(ClaimsPrincipal claimsPrincipal)
         {
-            throw new NotImplementedException();
+            var email = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
+
+            var user =await  userManager.FindByEmailAsync(email!);
+
+            var response = new UserDto
+            {
+                Id = user!.Id,
+                DisplayName = user.DisplayName,
+                Email = user.Email!,
+                Token = await GenerateTokenAsync(user)
+            };
+
+            return response;
+
         }
 
 
-        public Task<bool> UserExistsAsync(string email)
+        public async Task<bool> UserExistsAsync(string email)
         {
-            throw new NotImplementedException();
+            return await userManager.FindByEmailAsync(email) != null;
+
         }
-
-
-
-
-
-
-
-
-
 
         public async Task<string> GenerateTokenAsync(ApplicationUser applicationUser) 
         {
