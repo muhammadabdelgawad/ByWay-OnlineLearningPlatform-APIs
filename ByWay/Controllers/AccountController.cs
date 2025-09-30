@@ -2,6 +2,7 @@
 using ByWay.Application.Abstraction.DTOs.Auth;
 using ByWay.Application.Contracts;
 using ByWay.Application.Services.Auth;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
@@ -19,6 +20,30 @@ namespace ByWay.APIs.Controllers
            
             return Ok(user);
         }
+
+        // [Authorize]
+        [HttpPost("login")]
+        public async Task<ActionResult> Login(LoginDto loginDto)
+        {
+            var user = await authService.LoginAsync(loginDto);
+            return Ok(user);
+        }
+
+       // [Authorize]
+        [HttpGet("currentUser")]
+        public async Task<ActionResult> GetCurrentUser()
+        {
+            var user = await authService.GetCurrentUserAsync(User);
+            return Ok(user);
+        }
+
+        [HttpGet("emailExists")]
+        public async Task<ActionResult> CheckEmailExists(string email)
+        {
+            var exists = await authService.UserExistsAsync(email);
+            return Ok(exists);
+        }
+
 
     }
 }

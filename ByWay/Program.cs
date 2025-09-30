@@ -1,9 +1,6 @@
 using ByWay.APIs.Extensions;
 using ByWay.Application;
-using ByWay.Domain.Entities.Identity;
 using ByWay.Infrastructure;
-using ByWay.Infrastructure.Identity;
-using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
