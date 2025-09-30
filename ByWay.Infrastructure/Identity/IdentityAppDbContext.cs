@@ -1,24 +1,26 @@
 ﻿using ByWay.Domain.Entities.Identity;
 using ByWay.Infrastructure.Identity.Configurations;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 
 namespace ByWay.Infrastructure.Identity
 {
-    public class IdentityAppDbContext :IdentityDbContext<ApplicationUser>
+    public class IdentityAppDbContext : IdentityDbContext<ApplicationUser>
     {
         public IdentityAppDbContext(DbContextOptions<IdentityAppDbContext> options)
-            :base(options)
+            : base(options)
         {
             
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationUserConfigurations).Assembly);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CourseEnrollmentConfigurations).Assembly);
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.ApplyConfiguration(new ApplicationUserConfigurations());
+            modelBuilder.ApplyConfiguration(new CourseEnrollmentConfigurations());
         }
 
-        public DbSet<ApplicationUser>Users { get; set; }
-        public DbSet<CourseEnrollment>CourseEnrollments { get; set; }
+         
     }
 }
