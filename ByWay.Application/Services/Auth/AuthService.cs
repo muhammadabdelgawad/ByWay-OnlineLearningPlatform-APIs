@@ -77,8 +77,12 @@ namespace ByWay.Application.Services.Auth
         public async Task<UserDto> GetCurrentUserAsync(ClaimsPrincipal claimsPrincipal)
         {
             var email = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
+            if(string.IsNullOrEmpty(email))
+                throw new Exception("Invalid Mail");
 
             var user =await  userManager.FindByEmailAsync(email!);
+            if (user == null)
+                throw new Exception("User not found");
 
             var response = new UserDto
             {
@@ -103,18 +107,15 @@ namespace ByWay.Application.Services.Auth
         {
             var userClaims= await userManager.GetClaimsAsync(applicationUser);
 
-            var rolesAsClaim = new List<Claim>();
-            
             var roles = await userManager.GetRolesAsync(applicationUser);
-            
-            foreach (var role in roles)
-                rolesAsClaim.Add(new Claim(ClaimTypes.Role, role.ToString()));
+
+            var rolesAsClaim = roles.Select(role => new Claim(ClaimTypes.Role, role));
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.PrimarySid,applicationUser.Id),
-                new Claim(ClaimTypes.PrimarySid,applicationUser.Email!),
-                new Claim(ClaimTypes.PrimarySid,applicationUser.DisplayName),
+                new Claim(ClaimTypes.NameIdentifier,applicationUser.Id),
+                new Claim(ClaimTypes.Email,applicationUser.Email!),
+                new Claim(ClaimTypes.Name,applicationUser.DisplayName),
             }.Union(userClaims)
              .Union(rolesAsClaim);
 

@@ -19,7 +19,7 @@ namespace ByWay.APIs.Controllers
             return Ok(user);
         }
 
-        [Authorize]
+        
         [HttpPost("login")]
         public async Task<ActionResult> Login(LoginDto loginDto)
         {
