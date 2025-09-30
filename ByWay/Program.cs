@@ -13,6 +13,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<IdentityAppDbContext>();
 builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddFluentValidationConf();
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
