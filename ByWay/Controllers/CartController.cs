@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using ByWay.Application.Abstraction.Repositories.Cart;
 using ByWay.Application.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,14 +11,16 @@ namespace ByWay.APIs.Controllers
     [ApiController]
     public class CartController(IMapper mapper, IUnitOfWork unitOfWork, ICartService cartService) : ControllerBase
     {
-
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetCart()
         {
             var cart = await cartService.GetCartAsync(User);
             return Ok(cart);
         }
-
+       
+        
+        [Authorize]
         [HttpPost("addItem")]
         public async Task<IActionResult> AddCartItem([FromBody] ByWay.Application.Abstraction.DTOs.Cart.CreateCartItemRequest model)
         {
@@ -25,8 +28,8 @@ namespace ByWay.APIs.Controllers
             return Ok(cart);
         }
 
-        
 
+        [Authorize]
         [HttpPost("applyDiscount")]
         public async Task<IActionResult> ApplyDiscount([FromQuery] decimal discount)
         {
@@ -34,6 +37,7 @@ namespace ByWay.APIs.Controllers
             return Ok("Discount applied successfully.");
         }
 
+        [Authorize]
         [HttpDelete("clear")]
         public async Task<IActionResult> ClearCart()
         {
