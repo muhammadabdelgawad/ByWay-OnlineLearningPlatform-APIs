@@ -43,20 +43,23 @@ namespace ByWay.Application.Services.Cart
         {
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
-                throw new Exception("User is not authenticated.");
+                throw new UnauthorizedAccessException("User is not authenticated.");
 
             if (model == null)
-                throw new Exception(nameof(model));
+                throw new ArgumentNullException(nameof(model));
 
-            if (string.IsNullOrWhiteSpace(model.CourseName))
-                throw new Exception("Course name is required.");
+            if (model.CourseId <= 0)
+                throw new Exception("Valid Course ID is required.");
+
+            var course = await _unitOfWork.Courses.GetByIdAsync(model.CourseId);
+            if (course == null)
+                throw new InvalidOperationException($"Course with ID {model.CourseId} not found.");
 
             var carts = await _unitOfWork.Carts.GetAllAsync();
             var cart = carts.FirstOrDefault(c => c.UserId == userId);
 
             if (cart == null)
             {
-                
                 cart = new Carts
                 {
                     UserId = userId,
@@ -67,8 +70,10 @@ namespace ByWay.Application.Services.Cart
                 await _unitOfWork.Carts.AddAsync(cart);
                 await _unitOfWork.CompleteAsync();
             }
+
+           
             var cartItems = await _unitOfWork.CartItems.GetAllAsync();
-            var existingItem = cartItems.FirstOrDefault(ci => ci.CourseName == model.CourseName);
+            var existingItem = cartItems.FirstOrDefault(ci => ci.CourseId == model.CourseId);
 
             if (existingItem != null)
             {
@@ -77,12 +82,12 @@ namespace ByWay.Application.Services.Cart
             }
             else
             {
-                
                 var newCartItem = new CartItem
                 {
-                    CourseName = model.CourseName,
-                    PictureUrl = model.PictureUrl,
-                    Price = model.Price,
+                    CourseId = model.CourseId,  
+                    CourseName = course.CourseName,
+                    PictureUrl = course.PictureUrl,
+                    Price = course.Price,
                     Quantity = model.Quantity
                 };
 
@@ -90,7 +95,6 @@ namespace ByWay.Application.Services.Cart
             }
 
             await _unitOfWork.CompleteAsync();
-
             return await GetCartAsync(user);
         }
       
