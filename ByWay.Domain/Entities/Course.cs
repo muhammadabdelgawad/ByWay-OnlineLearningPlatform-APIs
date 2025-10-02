@@ -1,4 +1,6 @@
-﻿namespace ByWay.Domain.Entities;
+﻿using ByWay.Domain.Entities.Cart;
+
+namespace ByWay.Domain.Entities;
 public class Course : BaseEntity
 {
     public string CourseName { get; set; }
@@ -14,6 +16,7 @@ public class Course : BaseEntity
     public int InstructorId { get; set; }
     public ICollection<CourseSection> Sections { get; set; } = new List<CourseSection>();
     public ICollection<Lectur> Lectures { get; set; } = new List<Lectur>();
+    public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
 
     public virtual Category Category { get; set; } = null!;
     public virtual Instructor Instructor { get; set; } = null!;

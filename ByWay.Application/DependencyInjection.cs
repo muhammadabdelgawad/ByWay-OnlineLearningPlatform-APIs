@@ -4,6 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using ByWay.Application.Abstraction.Repositories.Cart;
+using ByWay.Application.Services.Cart;
 
 namespace ByWay.Application
 {
@@ -14,6 +16,7 @@ namespace ByWay.Application
             services.AddAutoMapper(typeof(MappingProfile));
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
+            services.AddScoped(typeof(ICartService), typeof(CartService));
 
             return services;
         }

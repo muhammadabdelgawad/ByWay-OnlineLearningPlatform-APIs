@@ -4,16 +4,19 @@ using ByWay.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ByWay.Infrastructure.Migrations
+namespace ByWay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20251001082909_ApplyingCartAndCartitems01")]
+    partial class ApplyingCartAndCartitems01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -322,7 +325,7 @@ namespace ByWay.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ByWay.Domain.Entities.Course", "Course")
-                        .WithMany("CartItems")
+                        .WithMany()
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -391,8 +394,6 @@ namespace ByWay.Infrastructure.Migrations
 
             modelBuilder.Entity("ByWay.Domain.Entities.Course", b =>
                 {
-                    b.Navigation("CartItems");
-
                     b.Navigation("Lectures");
 
                     b.Navigation("Sections");

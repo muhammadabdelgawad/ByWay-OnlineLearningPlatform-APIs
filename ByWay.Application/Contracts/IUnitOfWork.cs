@@ -1,4 +1,5 @@
 ﻿using ByWay.Domain.Entities;
+using ByWay.Domain.Entities.Cart;
 
 namespace ByWay.Application.Contracts
 {
@@ -6,7 +7,8 @@ namespace ByWay.Application.Contracts
     {
         IGenericRepository<Course> Courses { get; }
         IGenericRepository<Instructor> Instructors { get; }
-
+        IGenericRepository<Carts> Carts { get; }  
+        IGenericRepository<CartItem> CartItems { get; }
         Task<int> CompleteAsync();
     }
 }
