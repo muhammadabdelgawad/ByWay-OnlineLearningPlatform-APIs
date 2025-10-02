@@ -47,6 +47,11 @@ namespace ByWay.Application.Mapping
                 .ForMember(d => d.Sections, o => o.Ignore())
                 .ForMember(d => d.Lectures, o => o.Ignore())
                 .ForMember(d => d.Id, o => o.Ignore());
+
+
+            CreateMap<CreateCartItemRequest, CartItem>().ReverseMap();
+            CreateMap<Carts, CartResponse>().ReverseMap();
+            CreateMap<UpdateCartItemRequest, CartItem>();
         }
     }
 }

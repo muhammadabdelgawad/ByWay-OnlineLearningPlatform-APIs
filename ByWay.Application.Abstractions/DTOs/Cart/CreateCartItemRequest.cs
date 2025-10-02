@@ -2,7 +2,7 @@
 {
     public class CreateCartItemRequest
     {
-
+        public int CourseId { get; set; }
         public string CourseName { get; set; } = string.Empty;
         public string? PictureUrl { get; set; }
         public decimal Price { get; set; }

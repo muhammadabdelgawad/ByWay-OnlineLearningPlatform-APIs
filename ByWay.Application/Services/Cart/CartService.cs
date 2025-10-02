@@ -1,4 +1,6 @@
-﻿namespace ByWay.Application.Services.Cart
+﻿using ByWay.Domain.Entities.Cart;
+
+namespace ByWay.Application.Services.Cart
 {
     public class CartService : ICartService
     {
@@ -92,7 +94,7 @@
             return await GetCartAsync(user);
         }
       
-        public async Task<UpdateCartItemRequest> UpdateCartItemAsync(UpdateCartItemRequest model)
+        public async Task<UpdateCartItemRequest> UpdateCartItemAsync(ClaimsPrincipal user,int ItemId,UpdateCartItemRequest model)
         {
             if (model == null)
                 throw new ArgumentNullException(nameof(model));

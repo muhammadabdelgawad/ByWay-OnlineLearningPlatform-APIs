@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ByWay.Application.Abstraction.DTOs.Cart;
 using ByWay.Application.Abstraction.Repositories.Cart;
 using ByWay.Application.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -18,16 +19,22 @@ namespace ByWay.APIs.Controllers
             var cart = await cartService.GetCartAsync(User);
             return Ok(cart);
         }
-       
-        
+
+
         [Authorize]
         [HttpPost("addItem")]
-        public async Task<IActionResult> AddCartItem([FromBody] ByWay.Application.Abstraction.DTOs.Cart.CreateCartItemRequest model)
+        public async Task<IActionResult> AddCartItem([FromBody] CreateCartItemRequest model)
         {
             var cart = await cartService.AddCartItemAsync(User, model);
             return Ok(cart);
         }
 
+        [HttpPut("updateItem/{itemId}")]
+        public async Task<IActionResult> UpdateCartItem(int itemId, [FromBody] UpdateCartItemRequest model)
+        {
+            var cart = await cartService.UpdateCartItemAsync(User, itemId, model);
+            return Ok(cart);
+        }
 
         [Authorize]
         [HttpPost("applyDiscount")]

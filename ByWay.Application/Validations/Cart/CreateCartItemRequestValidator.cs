@@ -9,7 +9,7 @@ namespace ByWay.Application.Validations.Cart
             RuleFor(c => c.CourseName)
                  .NotEmpty().WithMessage("Course name is required.")
                  .NotNull().WithMessage("Course name cannot be null.")
-                 .Length(200, 5).WithMessage("Course name must not exceed 200 characters and min 5");
+                 .Length(5, 200).WithMessage("Course name must not exceed 200 characters and min 5");
                  
 
             RuleFor(c => c.Price)

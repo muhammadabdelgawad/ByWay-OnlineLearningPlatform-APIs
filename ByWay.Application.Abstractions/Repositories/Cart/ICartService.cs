@@ -7,7 +7,7 @@ namespace ByWay.Application.Abstraction.Repositories.Cart
     {
         Task<CartResponse> GetCartAsync(ClaimsPrincipal claimsPrincipal);
         Task<CartResponse> AddCartItemAsync(ClaimsPrincipal user,CreateCartItemRequest model);
-        Task<UpdateCartItemRequest> UpdateCartItemAsync(UpdateCartItemRequest model);
+        Task<UpdateCartItemRequest> UpdateCartItemAsync(ClaimsPrincipal user,int ItemId,UpdateCartItemRequest model);
         Task ClearCartAsync(ClaimsPrincipal user);
         Task ApplyDiscountAsync(ClaimsPrincipal user, decimal discount);
     }
