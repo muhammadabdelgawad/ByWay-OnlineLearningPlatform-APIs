@@ -1,5 +1,4 @@
-﻿using ByWay.Domain.Entities.Identity;
-
+﻿
 namespace ByWay.Domain.Entities.Cart
 {
     public class Carts
