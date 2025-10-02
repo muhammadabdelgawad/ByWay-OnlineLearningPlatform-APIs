@@ -1,12 +1,4 @@
-﻿using ByWay.Domain.Entities.Cart;
-using ByWay.Infrastructure.Data.Configurations.Base;
-using ByWay.Infrastructure.Data.Configurations.Cart;
-using ByWay.Infrastructure.Data.Configurations.Categories;
-using ByWay.Infrastructure.Data.Configurations.Courses;
-using ByWay.Infrastructure.Data.Configurations.Instructors;
-using ByWay.Infrastructure.Data.Configurations.Lecture;
-
-namespace ByWay.Infrastructure.Data
+﻿namespace ByWay.Infrastructure.Data
 {
     public class AppDbContext : DbContext
     {
