@@ -1,13 +1,14 @@
 ﻿using ByWay.Application.Abstraction.DTOs.Course;
 using ByWay.Application.Abstraction.DTOs.Instructor;
 using ByWay.Application.Abstractions.Admin;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ByWay.APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Policy = "AdminOnly")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -17,7 +18,7 @@ namespace ByWay.APIs.Controllers
         }
 
         [HttpGet("dashboard")]
-        public async Task<IActionResult> GetDashboard()
+        public async Task<ActionResult> GetDashboard()
         {
             var isAdmin = await _adminService.IsAdminAsync(User);
             if (!isAdmin)
@@ -30,14 +31,14 @@ namespace ByWay.APIs.Controllers
         }
 
         [HttpPost("instructors")]
-        public async Task<IActionResult> CreateInstructor([FromBody] CreateInstructorRequest request)
+        public async Task<ActionResult> CreateInstructor([FromBody] CreateInstructorRequest request)
         {
             var instructor = await _adminService.CreateInstructorAsync(request);
             return Ok(instructor);
         }
 
         [HttpPost("courses")]
-        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseRequest request)
+        public async Task<ActionResult> CreateCourse([FromBody] CreateCourseRequest request)
         {
             var success = await _adminService.CreateCourseAsync(request);
             if (!success)
@@ -48,14 +49,14 @@ namespace ByWay.APIs.Controllers
         }
 
         [HttpGet("instructors")]
-        public async Task<IActionResult> GetAllInstructors()
+        public async Task<ActionResult> GetAllInstructors()
         {
             var instructors = await _adminService.GetAllInstructorsAsync();
             return Ok(instructors);
         }
 
         [HttpDelete("instructors/{id}")]
-        public async Task<IActionResult> DeleteInstructor(int id)
+        public async Task<ActionResult> DeleteInstructor(int id)
         {
             var success = await _adminService.DeleteInstructorAsync(id);
             if (!success)
@@ -66,7 +67,7 @@ namespace ByWay.APIs.Controllers
         }
 
         [HttpDelete("courses/{id}")]
-        public async Task<IActionResult> DeleteCourse(int id)
+        public async Task<ActionResult> DeleteCourse(int id)
         {
             var success = await _adminService.DeleteCourseAsync(id);
             if (!success)

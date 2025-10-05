@@ -104,5 +104,7 @@ namespace ByWay.Application.Services.Admin
             var roles = await _userManager.GetRolesAsync(currentUser);
             return roles.Contains("Admin");
         }
+    
+    
     }
 }
