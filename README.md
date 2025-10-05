@@ -2,261 +2,168 @@
 
 ## Project Description
 
-ByWay is an ASP.NET Core web API project designed for e-learning platform management. It provides functionalities for managing courses, instructors, user authentication, and shopping cart operations. The API exposes endpoints for creating, retrieving, updating, and deleting courses and instructors. It also handles user registration, login, authentication, and shopping cart functionalities like adding, updating, clearing and applying discounts.
+ByWay is an ASP.NET Core Web API project designed for managing online courses, instructors, and user authentication. It includes functionalities for administrators to manage courses and instructors, user authentication and authorization using JWT, and a shopping cart feature for course enrollment.
 
 ## Features and Functionality
 
-*   **Course Management:**
-    *   Create, retrieve, update, and delete courses.
-    *   Associate courses with categories and instructors.
-    *   Manage course sections and lectures.
-*   **Instructor Management:**
-    *   Create, retrieve, update, and delete instructors.
-    *   Assign instructors to courses.
 *   **User Authentication and Authorization:**
-    *   User registration and login with JWT-based authentication.
-    *   Protected routes requiring authentication.
-    *   Current user retrieval
-*   **Shopping Cart Functionality:**
-    *   Add courses to the cart.
-    *   View and update cart items.
-    *   Clear the cart.
+    *   User registration and login using email and password.
+    *   JWT (JSON Web Tokens) for secure authentication.
+    *   Admin role-based authorization for accessing administrative functionalities.
+    *   Token generation using settings from `jwtSettings` configuration.
+    *   Account activation status to control user access.
+
+*   **Course Management:**
+    *   Create, read, update, and delete courses.
+    *   Course details include name, picture URL, price, description, certification, total hours, level, category, and instructor.
+    *   Categorization of courses and association with instructors.
+    *   Course sections and lectures for structured learning.
+
+*   **Instructor Management:**
+    *   Create, read, update, and delete instructors.
+    *   Instructor details include name, description, picture URL, rate, and job title.
+    *   Association of instructors with courses.
+
+*   **Shopping Cart:**
+    *   Add, update, and clear items in the shopping cart.
     *   Apply discounts to the cart.
-*   **Data Validation:**
-    *   Request validation using FluentValidation.
-*   **Data Persistence:**
-    *   Uses Entity Framework Core for data access and persistence.
-    *   Uses SQL Server as the database.
+    *   Cart persistence with user association.
+
+*   **Admin Dashboard:**
+    *   Statistics on total instructors, courses, users, and enrollments.
+    *   Access to admin functions restricted to authorized users.
 
 ## Technology Stack
 
-*   ASP.NET Core Web API
-*   Entity Framework Core
-*   SQL Server
-*   AutoMapper
-*   FluentValidation
-*   Microsoft Identity
-*   JWT (JSON Web Tokens)
-*   C#
+*   **ASP.NET Core:** Framework for building the Web API.
+*   **C#:** Programming language.
+*   **Entity Framework Core (EF Core):** ORM (Object-Relational Mapper) for database interactions.
+*   **SQL Server:** Database for storing application data.
+*   **AutoMapper:** Object-object mapper to reduce boilerplate code.
+*   **FluentValidation:** Library for building strongly-typed validation rules.
+*   **Microsoft.AspNetCore.Identity:** Framework for user management.
+*   **JWT (JSON Web Tokens):** For authentication and authorization.
 
 ## Prerequisites
 
-Before running the application, ensure you have the following installed:
-
 *   .NET SDK (version 7.0 or later)
-*   SQL Server
-*   An IDE or text editor (e.g., Visual Studio, VS Code)
+*   SQL Server installed and running
+*   Visual Studio or other suitable IDE
 
 ## Installation Instructions
 
 1.  **Clone the repository:**
 
     ```bash
-    git clone https://github.com/muhammadabdelgawad/ByWay-.git
+    git clone https://github.com/muhammadabdelgawad/ByWay-
     cd ByWay-
     ```
 
-2.  **Configure the database connection:**
+2.  **Configure the database:**
 
-    *   Update the connection strings in `ByWay.Infrastructure/appsettings.json` and `ByWay/appsettings.json` to point to your SQL Server instance.
+    *   Update the connection strings in `ByWay.Infrastructure/DependencyInjection.cs` and `ByWay.APIs/Extensions/IdentityExtensions.cs` (or `appsettings.json` if those values are referenced there.) The connection strings should look something like this:
+
+    ```csharp
+        options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+
+    ```
+
+    Replace `"DefaultConnection"` and `"IdentityConnection"` with your actual connection string values. Make sure both of your database connection strings point to a valid SQL Server instance.
+
+    Example `appsettings.json`:
 
     ```json
-    // ByWay.Infrastructure/appsettings.json
     {
       "ConnectionStrings": {
-        "DefaultConnection": "Server=your_server;Database=ByWayDB;Integrated Security=True;TrustServerCertificate=True"
+        "DefaultConnection": "Server=your_server;Database=ByWayDB;User Id=your_user_id;Password=your_password;TrustServerCertificate=True",
+        "IdentityConnection": "Server=your_server;Database=ByWayIdentityDB;User Id=your_user_id;Password=your_password;TrustServerCertificate=True"
+      },
+      "jwtSettings": {
+        "key": "YourSecretKeyForJwtToken",
+        "Audience": "http://localhost",
+        "Issuer": "ByWay",
+        "DurationInMinutes": 60
       }
-    }
-
-    //ByWay/appsettings.json
-    {
-       "ConnectionStrings": {
-         "IdentityConnection": "Server=your_server;Database=IdentityByWayDB;Integrated Security=True;TrustServerCertificate=True"
-       },
     }
     ```
 
-    Replace `your_server` with the actual server address.  Ensure the database names match your SQL Server configuration. The connection string `Integrated Security=True` assumes you're using Windows Authentication.  If using SQL Server Authentication, replace it with `User Id=your_user_id;Password=your_password;`.
+3.  **Apply database migrations:**
 
-3.  **Apply EF Core migrations:**
-
-    *   Open a terminal in the `ByWay.Infrastructure` directory.
+    *   Navigate to the `ByWay.Infrastructure` directory in your terminal.
     *   Run the following commands to create and update the database:
 
     ```bash
-    dotnet ef database update -s ../ByWay
+    dotnet ef database update -c AppDbContext
+    dotnet ef database update -c IdentityAppDbContext
     ```
 
-    *   Open a terminal in the `ByWay.Infrastructure.Identity` directory.
-    *   Run the following commands to create and update the database for Identity:
+    If you encounter errors, ensure that the Entity Framework Core tools are installed:
 
     ```bash
-    dotnet ef database update -s ../ByWay
+    dotnet tool install --global dotnet-ef
     ```
 
-4.  **Build and run the application:**
+4.  **Configure JWT Settings:**
 
-    *   Open a terminal in the `ByWay` directory.
-    *   Run the following commands:
+    *   Ensure the `jwtSettings` section in `appsettings.json` is properly configured.  Specifically, the `key`, `Audience`, and `Issuer` values should reflect your desired configuration.  **Important:** The `key` should be a strong, randomly generated string and kept secret.
+
+5.  **Build and run the project:**
 
     ```bash
+    cd ByWay
     dotnet build
     dotnet run
     ```
 
+    This will start the API, typically on `https://localhost:5001` or `http://localhost:5000`.
+
 ## Usage Guide
 
-The API endpoints can be accessed through any HTTP client, such as Postman or a web browser.
+Once the API is running, you can access the endpoints using tools like Postman, Swagger UI, or any HTTP client.
 
-### Authentication
+*   **Authentication:**
+    *   `POST /api/Account/register`: Register a new user.  Requires `DisplayName`, `UserName`, `Email`, and `Password`.
+    *   `POST /api/Account/login`: Log in an existing user.  Requires `Email` and `Password`.  Returns a JWT.
+    *   `GET /api/Account/currentUser`: Get the current user's information (requires authentication).
+    *   Include the JWT in the `Authorization` header of subsequent requests as `Bearer <your_jwt>`.
 
-1.  **Register a new user:**
+*   **Courses:**
+    *   `GET /api/Course`: Get all courses.
+    *   `GET /api/Course/{id}`: Get a course by ID.
+    *   `POST /api/Course`: Create a new course (requires Admin privileges).
+    *   `PUT /api/Course/{id}`: Update a course (requires Admin privileges).
+    *   `DELETE /api/Course/{id}`: Delete a course (requires Admin privileges).
 
-    *   Send a POST request to `/api/Account/register` with the following JSON payload:
+*   **Instructors:**
+    *   `GET /api/Instuctor`: Get all instructors.
+    *   `GET /api/Instuctor/{id}`: Get an instructor by ID.
+    *   `POST /api/Instuctor`: Create a new instructor (requires Admin privileges).
+    *   `PUT /api/Instuctor/{id}`: Update an instructor (requires Admin privileges).
+    *   `DELETE /api/Instuctor/{id}`: Delete an instructor (requires Admin privileges).
 
-    ```json
-    {
-        "displayName": "Your Name",
-        "userName": "your_username",
-        "email": "your_email@example.com",
-        "password": "your_password"
-    }
-    ```
+*   **Shopping Cart:**
+    *   `GET /api/Cart`: Get the current user's cart (requires authentication).
+    *   `POST /api/Cart/addItem`: Add an item to the cart (requires authentication). Requires `CourseId`, `CourseName`, `PictureUrl`, `Price`, and `Quantity`.
+    *   `PUT /api/Cart/updateItem/{itemId}`: Update an item in the cart (requires authentication). Requires `CourseId` and `Quantity`.
+    *   `POST /api/Cart/applyDiscount?discount={discount}`: Apply a discount to the cart (requires authentication).
+    *   `DELETE /api/Cart/clear`: Clear the cart (requires authentication).
 
-2.  **Login:**
-
-    *   Send a POST request to `/api/Account/login` with the following JSON payload:
-
-    ```json
-    {
-        "email": "your_email@example.com",
-        "password": "your_password"
-    }
-    ```
-
-    *   The response will contain a JWT token that needs to be included in the `Authorization` header of subsequent requests. Example: `Authorization: Bearer your_jwt_token`.
-
-### Course Management
-
-*   **Get all courses:** `GET /api/Course`
-*   **Get a course by ID:** `GET /api/Course/{id}`
-*   **Create a course:** `POST /api/Course`
-    ```json
-    {
-        "courseName": "New Course",
-        "pictureUrl": "http://example.com/image.jpg",
-        "price": 99.99,
-        "description": "Course description",
-        "rate": "FourStar",
-        "certification": "Certification details",
-        "totalHours": 20.5,
-        "level": "Intermediate",
-        "category": "Category Name",
-        "instructor": "Instructor Name",
-        "categoryId": 1,
-        "instructorId": 1
-    }
-    ```
-*   **Update a course:** `PUT /api/Course/{id}`
-    ```json
-    {
-        "id": 1,
-        "courseName": "Updated Course Name",
-        "pictureUrl": "http://example.com/updated_image.jpg",
-        "price": 129.99,
-        "description": "Updated course description",
-        "rate": "FiveStar",
-        "certification": "Updated certification details",
-        "totalHours": 25.5,
-        "level": "Advanced",
-        "category": "Updated Category Name",
-        "instructor": "Updated Instructor Name",
-        "categoryId": 2,
-        "instructorId": 2
-    }
-    ```
-*   **Delete a course:** `DELETE /api/Course/{id}`
-
-### Instructor Management
-
-*   **Get all instructors:** `GET /api/Instuctor`
-*   **Get an instructor by ID:** `GET /api/Instuctor/{id}`
-*   **Create an instructor:** `POST /api/Instuctor`
-    ```json
-    {
-        "name": "John Doe",
-        "description": "Instructor description",
-        "pictureUrl": "http://example.com/instructor.jpg",
-        "rate": "FiveStar",
-        "jobTitle": "FullstackDeveloper"
-    }
-    ```
-*   **Update an instructor:** `PUT /api/Instuctor/{id}`
-    ```json
-    {
-        "id": 1,
-        "name": "Updated John Doe",
-        "description": "Updated instructor description",
-        "pictureUrl": "http://example.com/updated_instructor.jpg",
-        "rate": "FourStar",
-        "jobTitle": "BackendDeveloper"
-    }
-    ```
-*   **Delete an instructor:** `DELETE /api/Instuctor/{id}`
-
-### Cart Management
-
-*   **Get the cart:** `GET /api/Cart` (Requires authentication)
-*   **Add an item to the cart:** `POST /api/Cart/addItem` (Requires authentication)
-    ```json
-    {
-        "courseId": 1,
-        "courseName": "Sample Course",
-        "pictureUrl": "http://example.com/sample_course.jpg",
-        "price": 50.00,
-        "quantity": 2
-    }
-    ```
-*   **Update a cart item:** `PUT /api/Cart/updateItem/{itemId}` (Requires authentication)
-    ```json
-    {
-        "courseId": 1,
-        "quantity": 3
-    }
-    ```
-*   **Apply discount to the cart:** `POST /api/Cart/applyDiscount?discount=0.1` (Requires authentication) Replace 0.1 with your desired discount percentage.
-*   **Clear the cart:** `DELETE /api/Cart/clear` (Requires authentication)
+*   **Admin:**
+    *   `GET /api/Admin/dashboard`: Get dashboard statistics (requires Admin privileges).
+    *   `POST /api/Admin/instructors`: Create an instructor (requires Admin privileges). Requires `Name`, `Description`, `PictureUrl`, `Rate`, and `JobTitle`.
+    *   `POST /api/Admin/courses`: Create a course (requires Admin privileges). Requires `CourseName`, `PictureUrl`, `Price`, `Description`, `Rate`, `Certification`, `TotalHours`, `Level`, `Category`, and `Instructor`.
+    *   `GET /api/Admin/instructors`: Get all instructors (requires Admin privileges).
+    *   `DELETE /api/Admin/instructors/{id}`: Delete an instructor (requires Admin privileges).
+    *   `DELETE /api/Admin/courses/{id}`: Delete a course (requires Admin privileges).
 
 ## API Documentation
 
-| Endpoint                  | Method | Description                                               | Request Body                                                                      | Response Body                                                                                                 | Authentication |
-| ------------------------- | ------ | --------------------------------------------------------- | --------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | -------------- |
-| `/api/Account/register`   | POST   | Registers a new user                                    | `RegisterDto`                                                                     | `UserDto`                                                                                                     | No             |
-| `/api/Account/login`      | POST   | Logs in an existing user                                  | `LoginDto`                                                                        | `UserDto`                                                                                                     | No             |
-| `/api/Account/currentUser`| GET    | Retrieves the currently logged-in user                      | None                                                                              | `UserDto`                                                                                                     | Yes            |
-| `/api/Account/emailExists`| GET    | Checks if an email exists in the database                 | `email` query parameter                                                                                                       | `bool`                                                                                                       | No            |
-| `/api/Course`             | GET    | Retrieves all courses                                   | None                                                                              | `IEnumerable<CourseResponse>`                                                                                  | No             |
-| `/api/Course/{id}`        | GET    | Retrieves a course by its ID                              | None                                                                              | `CourseResponse`                                                                                              | No             |
-| `/api/Course`             | POST   | Creates a new course                                    | `CreateCourseRequest`                                                             | Confirmation Message                                                                                            | No             |
-| `/api/Course/{id}`        | PUT    | Updates an existing course                                | `UpdateCourseRequest`                                                             | Confirmation Message                                                                                            | No             |
-| `/api/Course/{id}`        | DELETE | Deletes a course                                        | None                                                                              | Confirmation Message                                                                                            | No             |
-| `/api/Instuctor`          | GET    | Retrieves all instructors                               | None                                                                              | `IEnumerable<InstructorResponse>`                                                                               | No             |
-| `/api/Instuctor/{id}`     | GET    | Retrieves an instructor by ID                            | None                                                                              | `InstructorResponse`                                                                                            | No             |
-| `/api/Instuctor`          | POST   | Creates a new instructor                                | `CreateInstructorRequest`                                                           | Request Details                                                                                               | No             |
-| `/api/Instuctor/{id}`     | PUT    | Updates an existing instructor                          | `UpdateInstructorRequest`                                                           | `InstructorResponse`                                                                                            | No             |
-| `/api/Instuctor/{id}`     | DELETE | Deletes an instructor                                     | None                                                                              | Confirmation Message                                                                                            | No             |
-| `/api/Cart`               | GET    | Retrieves the user's cart                               | None                                                                              | `CartResponse`                                                                                                | Yes            |
-| `/api/Cart/addItem`        | POST   | Adds an item to the user's cart                          | `CreateCartItemRequest`                                                             | `CartResponse`                                                                                                | Yes            |
-| `/api/Cart/updateItem/{itemId}` | PUT    | Updates an item in the user's cart                       | `UpdateCartItemRequest`                                                             | `UpdateCartItemRequest`                                                                                             | Yes            |
-| `/api/Cart/applyDiscount` | POST   | Applies a discount to the user's cart                     | `discount` query parameter                                                        | Confirmation Message                                                                                            | Yes            |
-| `/api/Cart/clear`         | DELETE | Clears the user's cart                                  | None                                                                              | Confirmation Message                                                                                            | Yes            |
+Swagger UI is enabled in development environments. After running the application, navigate to `https://localhost:5001/swagger` or `http://localhost:5000/swagger` to view the API documentation.
 
 ## Contributing Guidelines
 
-Contributions are welcome! To contribute to this project, please follow these steps:
-
 1.  Fork the repository.
 2.  Create a new branch for your feature or bug fix.
-3.  Implement your changes.
-4.  Test your changes thoroughly.
+3.  Commit your changes with descriptive commit messages.
+4.  Push your changes to your fork.
 5.  Submit a pull request.
