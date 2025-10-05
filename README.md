@@ -46,7 +46,7 @@ ByWay is an ASP.NET Core Web API project designed for managing online courses, i
 
 ## Prerequisites
 
-*   .NET SDK (version 7.0 or later)
+*   .NET SDK (version 9.0 or later)
 *   SQL Server installed and running
 *   Visual Studio or other suitable IDE
 
