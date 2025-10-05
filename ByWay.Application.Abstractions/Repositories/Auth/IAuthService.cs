@@ -1,6 +1,4 @@
-﻿using ByWay.Application.Abstraction.DTOs.Auth;
-using System.Security.Claims;
-
+﻿
 namespace ByWay.Application.Services.Auth
 {
     public interface IAuthService
