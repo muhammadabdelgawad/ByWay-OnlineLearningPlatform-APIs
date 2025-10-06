@@ -17,3 +17,6 @@ global using ByWay.Application.Services.Auth;
 global using ByWay.Application.Services.Cart;
 global using FluentValidation.AspNetCore;
 global using Microsoft.Extensions.DependencyInjection;
+global using ByWay.Application.Abstraction.DTOs.Common;
+global using ByWay.Domain.Entities;
+global using ByWay.Domain.Enums;

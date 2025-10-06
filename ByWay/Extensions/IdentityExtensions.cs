@@ -35,6 +35,14 @@ namespace ByWay.APIs.Extensions
             })
                  .AddEntityFrameworkStores<IdentityAppDbContext>();
 
+          
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+            });
 
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
 

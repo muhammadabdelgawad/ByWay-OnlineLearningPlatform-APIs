@@ -8,7 +8,7 @@ namespace ByWay.APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Policy = "AdminOnly")]
+    [Authorize(Roles = "Admin")] 
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -20,12 +20,6 @@ namespace ByWay.APIs.Controllers
         [HttpGet("dashboard")]
         public async Task<ActionResult> GetDashboard()
         {
-            var isAdmin = await _adminService.IsAdminAsync(User);
-            if (!isAdmin)
-            {
-                return Forbid("Access denied. Admin role required.");
-            }
-
             var dashboardStats = await _adminService.GetDashboardStatsAsync();
             return Ok(dashboardStats);
         }
@@ -49,10 +43,17 @@ namespace ByWay.APIs.Controllers
         }
 
         [HttpGet("instructors")]
-        public async Task<ActionResult> GetAllInstructors()
+        public async Task<ActionResult> GetAllInstructors([FromQuery] InstructorFilterRequest request)
         {
-            var instructors = await _adminService.GetAllInstructorsAsync();
+            var instructors = await _adminService.GetAllInstructorsAsync(request);
             return Ok(instructors);
+        }
+
+        [HttpGet("courses")]
+        public async Task<ActionResult> GetAllCourses([FromQuery] CourseFilterRequest request)
+        {
+            var courses = await _adminService.GetAllCoursesAsync(request);
+            return Ok(courses);
         }
 
         [HttpDelete("instructors/{id}")]
