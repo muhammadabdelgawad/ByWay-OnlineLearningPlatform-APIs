@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using ByWay.Application.Abstraction.Repositories.Course;
+using ByWay.Application.Services.Course;
+using System.Reflection;
 
 namespace ByWay.Application
 {
@@ -11,6 +13,7 @@ namespace ByWay.Application
             services.AddScoped(typeof(IAuthService), typeof(AuthService));
             services.AddScoped(typeof(ICartService), typeof(CartService));
             services.AddScoped(typeof(IAdminService), typeof(AdminService));
+            services.AddScoped(typeof(ICourseService), typeof(CourseService));
 
             return services;
         }

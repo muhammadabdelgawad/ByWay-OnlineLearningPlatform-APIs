@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ByWay.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20251002081701_EditRelationshipBtwCourseAndCartItems")]
-    partial class EditRelationshipBtwCourseAndCartItems
+    [Migration("20251007120038_FixCartItemCourseId")]
+    partial class FixCartItemCourseId
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

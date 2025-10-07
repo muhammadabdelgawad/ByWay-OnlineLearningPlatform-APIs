@@ -1,12 +1,4 @@
-﻿using ByWay.Application.Mapping;
-using ByWay.Domain.Entities.Identity;
-using ByWay.Infrastructure.Identity;
-using ByWay.Infrastructure.Repositories.UnitOfWork;
-using ByWay.Infrastructure.Services.Repositories;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
+﻿
 namespace ByWay.Infrastructure
 {
     public static class DependencyInjection
@@ -15,20 +7,19 @@ namespace ByWay.Infrastructure
             IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(configuration.GetConnectionString("HostConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure())
+            );
 
-
-            
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
-            
 
-            //Identity
+
 
             services.AddDbContext<IdentityAppDbContext>(options =>
-             options.UseSqlServer(configuration.GetConnectionString("IdentityConnection")));
-           
-
+                options.UseSqlServer(configuration.GetConnectionString("HostIdentityConnection"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure())
+            );
 
             return services;
         }
