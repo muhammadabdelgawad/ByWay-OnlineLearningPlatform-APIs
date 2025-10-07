@@ -10,3 +10,8 @@ global using ByWay.Infrastructure.Data.Configurations.Categories;
 global using ByWay.Infrastructure.Data.Configurations.Courses;
 global using ByWay.Infrastructure.Data.Configurations.Instructors;
 global using ByWay.Infrastructure.Data.Configurations.Lecture;
+global using ByWay.Infrastructure.Identity;
+global using ByWay.Infrastructure.Repositories.UnitOfWork;
+global using ByWay.Infrastructure.Services.Repositories;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
