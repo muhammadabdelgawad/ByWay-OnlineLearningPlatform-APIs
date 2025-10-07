@@ -207,10 +207,4 @@ Contributions are welcome! Please follow these guidelines:
 3.  Write clear, concise, and well-documented code.
 4.  Submit a pull request with a detailed description of your changes.
 
-## License Information
 
-This project does not currently have a specified license. All rights are reserved.
-
-## Contact/Support Information
-
-For questions or support, please contact [muhammadabdelgawad@example.com](mailto:muhammadabdelgawad@example.com).
