@@ -7,20 +7,19 @@ namespace ByWay.Infrastructure
             IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-            options.UseSqlServer(configuration.GetConnectionString("HostConnection")));
+                options.UseSqlServer(configuration.GetConnectionString("HostConnection"),
+                    sqlOptions => sqlOptions.EnableRetryOnFailure())
+            );
 
-
-            
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IGenericRepository<Category>, GenericRepository<Category>>();
-            
 
-            //Identity
+
 
             services.AddDbContext<IdentityAppDbContext>(options =>
-             options.UseSqlServer(configuration.GetConnectionString("HostIdentityConnection")));
-           
-
+                options.UseSqlServer(configuration.GetConnectionString("HostIdentityConnection"),
+                sqlOptions => sqlOptions.EnableRetryOnFailure())
+            );
 
             return services;
         }
