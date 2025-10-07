@@ -56,13 +56,13 @@
             return Ok(courses);
         }
 
-        [HttpPut]
-        [Route("{id}")]
-        public async Task<IActionResult> UpdateInstructor(int id, [FromBody] UpdateInstructorRequest request)
+
+        [HttpPut("instructors/{id}")]
+        public async Task<ActionResult> UpdateInstructor(int id, [FromBody] UpdateInstructorRequest request)
         {
             if (id != request.Id)
             {
-                return BadRequest(" Instructor Id Not Exists");
+                return BadRequest("Instructor Id Not Exists");
             }
             var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
             if (instructor == null)
@@ -76,8 +76,9 @@
             return Ok(result);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourseRequest request)
+       
+        [HttpPut("courses/{id}")]
+        public async Task<ActionResult> UpdateCourse(int id, [FromBody] UpdateCourseRequest request)
         {
             if (id != request.Id)
             {
@@ -115,7 +116,5 @@
             }
             return Ok("Deleted Successfully");
         }
-
-
     }
 }

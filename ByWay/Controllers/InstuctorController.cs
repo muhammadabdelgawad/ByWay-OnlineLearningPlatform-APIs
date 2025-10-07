@@ -26,18 +26,6 @@ namespace ByWay.APIs.Controllers
         
 
 
-        [HttpDelete]
-        [Route("{id}")]
-        public async Task<IActionResult> DeleteInstructor(int id)
-        {
-            var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
-            if (instructor == null)
-            {
-                return NotFound();
-            }
-            _unitOfWork.Instructors.Delete(instructor);
-            await _unitOfWork.CompleteAsync();
-            return Ok("Deleted Successfuly");
-        }
+        
     }
 }
