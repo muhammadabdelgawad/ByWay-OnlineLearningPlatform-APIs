@@ -2,251 +2,215 @@
 
 ## Project Description
 
-ByWay is an online learning platform designed to provide users with access to a variety of courses and instructors. It offers features such as user authentication, course management, instructor profiles, and a shopping cart system. The platform is built using .NET and incorporates technologies like ASP.NET Core, Entity Framework Core, AutoMapper, and FluentValidation.
+ByWay is an e-learning platform backend API built using .NET. It provides functionalities for user authentication, course management, instructor management, and shopping cart operations. The API offers features for both regular users and administrative roles.
 
 ## Features and Functionality
 
 *   **User Authentication:**
-    *   Registration and Login functionality implemented using ASP.NET Core Identity.
-    *   JWT-based authentication for secure API access.
-    *   `AccountController.cs`: Handles registration, login, and current user retrieval.
+    *   Registration: Allows new users to create accounts with `DisplayName`, `UserName`, `Email`, and `Password`.  Uses the `RegisterDto` for registration requests. Implemented within `AccountController.cs`.
+    *   Login: Authenticates existing users using `Email` and `Password`. Generates a JWT token upon successful login. Uses the `LoginDto` for login requests.  Implemented within `AccountController.cs`.
+    *   Current User Retrieval: Retrieves user information based on the JWT token.  Implemented within `AccountController.cs`.
+    *   Email Existence Check: Determines if a user with a given email address already exists in the system. Implemented within `AccountController.cs`.
+
 *   **Course Management:**
-    *   Admins can create, read, update, and delete courses.
-    *   `CourseController.cs`: Provides API endpoints for course management.
-    *   `AdminController.cs`: Provides authorized endpoints for admin course management.
-    *   Course details include name, picture URL, price, description, certification, total hours, level, category, and instructor.
-*   **Instructor Profiles:**
-    *   Admins can create, read, update, and delete instructor profiles.
-    *   `InstuctorController.cs`: Provides API endpoints for instructor management.
-    *   Instructor details include name, description, picture URL, rate, and job title.
+    *   Course Creation (Admin only): Enables administrators to add new courses to the platform, including details such as `CourseName`, `PictureUrl`, `Price`, `Description`, `Certification`, `TotalHours`, `Level`, `CategoryId`, and `InstructorId`. Requires admin authentication. Implemented within `AdminController.cs`. Uses the `CreateCourseRequest` DTO and validated by `AdminCreateCourseValidator.cs`.
+    *   Course Listing: Provides a paginated list of courses, with filtering and sorting options based on `CourseName`, `Level`, `CategoryId`, and `Price`.  Implemented within `CourseController.cs` and `AdminController.cs`. Uses the `CourseFilterRequest` DTO.
+    *   Course Details: Retrieves detailed information for a specific course. Implemented within `CourseController.cs`.
+    *   Course Update (Admin only):  Allows administrators to modify existing courses. Implemented within `AdminController.cs`.  Uses the `UpdateCourseRequest` DTO.
+    *   Course Deletion (Admin only): Enables administrators to remove courses from the platform. Requires admin authentication. Implemented within `AdminController.cs`.
+
+*   **Instructor Management:**
+    *   Instructor Creation (Admin only): Allows administrators to add new instructors, including details such as `Name`, `Description`, `PictureUrl`, `Rate`, and `JobTitle`. Requires admin authentication. Implemented within `AdminController.cs`. Uses the `CreateInstructorRequest` DTO and validated by `AdminCreateInstructorValidator.cs`.
+    *   Instructor Listing (Admin only): Provides a paginated list of instructors, with filtering and sorting options.  Implemented within `AdminController.cs`. Uses the `InstructorFilterRequest` DTO.
+    *   Instructor Details: Retrieves detailed information for a specific instructor. Implemented within `InstuctorController.cs`.
+    *   Instructor Update (Admin only): Allows administrators to modify existing instructor information. Implemented within `AdminController.cs`. Uses the `UpdateInstructorRequest` DTO.
+    *   Instructor Deletion (Admin only): Enables administrators to remove instructors. Requires admin authentication. Implemented within `AdminController.cs`.
+
 *   **Shopping Cart:**
-    *   Users can add courses to a shopping cart.
-    *   `CartController.cs`: Provides API endpoints for cart management.
-    *   Cart items include course name, price, quantity, and picture URL.
-    *   Functionality to update item quantity, apply discounts, and clear the cart.
+    *   Cart Retrieval: Retrieves the current user's shopping cart. Implemented within `CartController.cs`.
+    *   Add Item to Cart: Adds a course to the user's shopping cart.  Uses the `CreateCartItemRequest` DTO and implemented within `CartController.cs`.
+    *   Update Cart Item Quantity: Modifies the quantity of a specific item in the cart. Implemented within `CartController.cs`. Uses the `UpdateCartItemRequest` DTO.
+    *   Apply Discount: Applies a discount to the shopping cart total. Implemented within `CartController.cs`.
+    *   Clear Cart: Empties the user's shopping cart. Implemented within `CartController.cs`.
+
 *   **Admin Dashboard:**
-    *   Provides statistics on total instructors, courses, users, and enrollments.
-    *   `AdminController.cs`: Includes an endpoint to retrieve dashboard statistics.
-*   **Role-Based Authorization:**
-    *   Admin roles are used to restrict access to certain functionalities.
-    *   `AdminController.cs`: Secured with the `[Authorize(Roles = "Admin")]` attribute.
-*   **Filtering and Pagination:**
-    *   Listings of instructors and courses support filtering, searching and sorting.
-    *   `InstructorFilterRequest.cs` and `CourseFilterRequest.cs`: define filtering parameters.
-    *   `PagedRequest.cs` and `PagedResult.cs`: Define pagination parameters and results.
+    *   Provides key statistics, such as total instructors, courses, users, and enrollments. Accessible only to administrators. Implemented within `AdminController.cs`. Uses the `AdminDashboardDto`.
 
 ## Technology Stack
 
-*   **ASP.NET Core:** Web framework for building APIs and web applications.
-*   **Entity Framework Core (EF Core):** ORM for data access.
-*   **SQL Server:** Database for storing application data.
-    *   `AppDbContext.cs`: Defines the database context and applies configurations.
-    *   EF Core Migrations are used to manage database schema changes.
-*   **AutoMapper:** Object-object mapper to reduce boilerplate code for mapping between DTOs and domain entities.
-    *   `MappingProfile.cs`: Defines the mapping configurations.
-*   **FluentValidation:** Library for building strongly-typed validation rules.
-    *   Validators are defined in the `ByWay.Application/Validations` directory.
-*   **JWT (JSON Web Tokens):** For authentication and authorization.
-    *   Configuration is stored in `appsettings.json` using the `JwtSettings.cs` DTO.
-*   **ASP.NET Core Identity:** Manages user accounts, authentication, and authorization.
-*   **C# 9 (or higher):** Programming language.
+*   .NET
+*   C#
+*   ASP.NET Core Web API
+*   Entity Framework Core (EF Core)
+*   SQL Server
+*   AutoMapper
+*   FluentValidation
+*   Microsoft.AspNetCore.Identity
+*   JWT (JSON Web Tokens)
 
 ## Prerequisites
 
-*   .NET SDK (version 6.0 or higher)
-*   SQL Server instance
-*   An IDE like Visual Studio or Visual Studio Code
+*   .NET SDK 9.0 or later.
+*   SQL Server instance.
 
 ## Installation Instructions
 
-1.  **Clone the repository:**
+1.  Clone the repository:
 
     ```bash
-    git clone https://github.com/muhammadabdelgawad/ByWay-.git
+    git clone https://github.com/muhammadabdelgawad/ByWay-
     cd ByWay-
     ```
 
-2.  **Configure the database:**
+2.  Configure the database connection strings:
 
-    *   Update the connection string in `ByWay.Infrastructure/appsettings.json` with your SQL Server instance details:
+    *   Open `ByWay.Infrastructure/appsettings.json` and `ByWay/appsettings.json`.
+    *   Modify the `DefaultConnection` in `ByWay.Infrastructure/appsettings.json` to point to your SQL Server instance for the main application database (e.g., `ByWay`).
+        ```json
+        "ConnectionStrings": {
+          "DefaultConnection": "Server=your_server;Database=ByWay;Trusted_Connection=True;MultipleActiveResultSets=true"
+        }
+        ```
 
-    ```json
-    {
-    "ConnectionStrings": {
-        "DefaultConnection": "Server=your_server;Database=ByWayDB;Trusted_Connection=True;MultipleActiveResultSets=true",
-        "IdentityConnection": "Server=your_server;Database=ByWayIdentityDB;Trusted_Connection=True;MultipleActiveResultSets=true"
-      },
-    }
-    ```
-    Replace `your_server`, `ByWayDB`, and `ByWayIdentityDB` with your server details and desired database names.
+    *   Modify the `IdentityConnection` in `ByWay/appsettings.json` to point to your SQL Server instance for the identity database (e.g., `ByWayIdentity`).
+        ```json
+        "ConnectionStrings": {
+          "IdentityConnection": "Server=your_server;Database=ByWayIdentity;Trusted_Connection=True;MultipleActiveResultSets=true"
+        }
+        ```
 
-3.  **Apply EF Core Migrations:**
-
-    *   Navigate to the `ByWay.Infrastructure` directory in the console.
-    *   Run the following commands to apply migrations to both the main database and the Identity database:
+3.  Apply EF Core migrations:
 
     ```bash
-    dotnet ef database update -c AppDbContext
-    dotnet ef database update -c IdentityAppDbContext
+    # Navigate to the Infrastructure directory
+    cd ByWay.Infrastructure
+    # Update the database
+    dotnet ef database update -s ../ByWay
+    # Navigate to the API directory
+    cd ../ByWay
+    #Update the Identity Database
+    dotnet ef database update
     ```
 
-4.  **Configure JWT Settings:**
-    *   Update JWT settings in `appsettings.json`:
+4.  Configure JWT settings:
+    * Open the `ByWay/appsettings.json` file.
+    * Configure the JWT settings:
 
     ```json
-      "jwtSettings": {
-        "key": "YourSecretKeyForJWTAuthentication",
+    "jwtSettings": {
+        "key": "Your_secret_key_Here",
         "Issuer": "ByWayAPI",
         "Audience": "ByWayUsers",
         "DurationInMinutes": 60
-      }
+    }
     ```
+   **Important:**  Replace `"Your_secret_key_Here"` with a strong, randomly generated secret key. Keep this key secure!
 
-    *   Replace `"YourSecretKeyForJWTAuthentication"` with a strong, randomly generated key.
-
-5.  **Build and Run the Application:**
-
-    *   Navigate to the `ByWay` directory (project root) in the console.
-    *   Run the following command to build and start the application:
+5.  Build and run the application:
 
     ```bash
+    # Navigate to the API directory
+    cd ByWay
+    dotnet build
     dotnet run
     ```
 
+    The API will be accessible at `https://localhost:{port}`, where `{port}` is specified in the `launchSettings.json` file.
+
 ## Usage Guide
 
-1.  **Register a new user account:**
-    *   Send a POST request to `api/Account/register` with the required information (DisplayName, UserName, Email, Password) in the request body.
-    *   Example request body:
+### User Authentication
 
-    ```json
-    {
-    "displayName": "John Doe",
-    "userName": "johndoe",
-    "email": "john.doe@example.com",
-    "password": "SecurePassword123"
-    }
-    ```
+*   **Register:** `POST /api/Account/register`
+    *   Request body: `RegisterDto`
+    *   Returns: `UserDto` with user details and JWT token.
+*   **Login:** `POST /api/Account/login`
+    *   Request body: `LoginDto`
+    *   Returns: `UserDto` with user details and JWT token.
+*   **Get Current User:** `GET /api/Account/currentUser`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme).
+    *   Returns: `UserDto` with user details and JWT token.
 
-2.  **Login to an existing user account:**
-    *   Send a POST request to `api/Account/login` with the email and password in the request body.
-    *   Example request body:
+### Course Management (Admin only)
 
-    ```json
-    {
-    "email": "john.doe@example.com",
-    "password": "SecurePassword123"
-    }
-    ```
+*   **Create Course:** `POST /api/Admin/courses`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Request body: `CreateCourseRequest`
+    *   Returns: 200 OK if successful, 400 Bad Request if instructor doesn't exist or other validation errors.
+*   **List Courses:** `GET /api/Admin/courses` and `GET /api/Course`
+    *   Query parameters: `PageNumber`, `PageSize`, `SearchTerm`, `CourseName`, `Level`, `CategoryId`, `MinPrice`, `MaxPrice`, `SortBy`, `SortDirection`.
+    *   Returns: `PagedResult<CourseResponse>`
+*    **Update Course:** `PUT /api/Admin/courses/{id}`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Request body: `UpdateCourseRequest`
+    *   Returns: 200 OK if successful, 400 Bad Request if instructor doesn't exist or other validation errors.
+*   **Delete Course:** `DELETE /api/Admin/courses/{id}`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Returns: 200 OK if successful, 404 Not Found if course doesn't exist.
 
-3.  **Access protected API endpoints:**
-    *   Include the JWT token in the `Authorization` header of the request.
-    *   Header format: `Authorization: Bearer <token>`
+### Instructor Management (Admin only)
 
-4.  **Use Admin API Endpoints (Requires Admin Role):**
-    *   Ensure the logged-in user has the "Admin" role.  This would typically be set during user creation or via a separate admin panel.
-    *   Access admin-specific endpoints like creating courses or instructors.
+*   **Create Instructor:** `POST /api/Admin/instructors`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Request body: `CreateInstructorRequest`
+    *   Returns: `InstructorResponse`
+*   **List Instructors:** `GET /api/Admin/instructors`
+    *   Query parameters: `PageNumber`, `PageSize`, `SearchTerm`, `Name`, `JobTitle`, `Rate`, `SortBy`, `SortDirection`.
+    *   Returns: `PagedResult<InstructorResponse>`
+*   **Get Instructor By ID:** `GET /api/Instuctor/{id}`
+    *   Returns: `InstructorResponse`
+*   **Update Instructor:** `PUT /api/Admin/instructors/{id}`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Request body: `UpdateInstructorRequest`
+    *   Returns: 200 OK if successful, 400 Bad Request if instructor doesn't exist or other validation errors.
+*   **Delete Instructor:** `DELETE /api/Admin/instructors/{id}`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Returns: 200 OK if successful, 404 Not Found if instructor doesn't exist.
+
+### Shopping Cart
+
+*   **Get Cart:** `GET /api/Cart`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme).
+    *   Returns: `CartResponse`
+*   **Add Item to Cart:** `POST /api/Cart/addItem`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme).
+    *   Request body: `CreateCartItemRequest`
+    *   Returns: `CartResponse`
+*   **Update Cart Item:** `PUT /api/Cart/updateItem/{itemId}`
+     *   Requires: JWT token in `Authorization` header (Bearer scheme).
+     *   Request body: `UpdateCartItemRequest`
+    *   Returns: `UpdateCartItemRequest`
+*   **Apply Discount:** `POST /api/Cart/applyDiscount?discount={discount}`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme).
+    *   Query parameter: `discount` (decimal value).
+    *   Returns: 200 OK.
+*   **Clear Cart:** `DELETE /api/Cart/clear`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme).
+    *   Returns: 200 OK.
+
+### Admin Dashboard (Admin only)
+
+*   **Get Dashboard Stats:** `GET /api/Admin/dashboard`
+    *   Requires: JWT token in `Authorization` header (Bearer scheme) and Admin role.
+    *   Returns: `AdminDashboardDto`
 
 ## API Documentation
 
-### Account Controller
-
-*   `POST api/Account/register`: Registers a new user.
-    *   Request body: `RegisterDto.cs`
-    *   Response: `UserDto.cs`
-*   `POST api/Account/login`: Logs in an existing user.
-    *   Request body: `LoginDto.cs`
-    *   Response: `UserDto.cs`
-*   `GET api/Account/currentUser`: Gets the current user's information (requires authentication).
-    *   Response: `UserDto.cs`
-*   `GET api/Account/emailExists?email={email}`: Checks if an email address is already registered.
-    *   Response: `bool`
-
-### Course Controller
-
-*   `GET api/Course`: Gets all courses.
-    *   Response: `IEnumerable<CourseResponse.cs>`
-*   `GET api/Course/{id}`: Gets a course by ID.
-    *   Response: `CourseResponse.cs`
-*    `POST api/Course`: Creates a new Course.
-    * Request body : `CreateCourseRequest.cs`
-    * Response:  `OK("Created Successfuly")`
-*   `PUT api/Course/{id}`: Updates an existing course.
-    * Request body : `UpdateCourseRequest.cs`
-    * Response: `OK("Updated Successfully")`
-*   `DELETE api/Course/{id}`: Deletes an existing course.
-    * Response: `OK("Deleted Successfully")`
-
-### Instructor Controller
-
-*   `GET api/Instuctor`: Gets all instructors.
-    *   Response: `IEnumerable<InstructorResponse.cs>`
-*   `GET api/Instuctor/{id}`: Gets an instructor by ID.
-    *   Response: `InstructorResponse.cs`
-*   `POST api/Instuctor`: Creates a new instructor.
-    *   Request body: `CreateInstructorRequest.cs`
-    * Response:  `OK(request)`
-*   `PUT api/Instuctor/{id}`: Updates an existing instructor.
-    *   Request body: `UpdateInstructorRequest.cs`
-    *   Response: `InstructorResponse.cs`
-*   `DELETE api/Instuctor/{id}`: Deletes an existing instructor.
-     * Response: `OK("Deleted Successfully")`
-
-### Cart Controller
-
-*   `GET api/Cart`: Gets the current user's cart (requires authentication).
-    *   Response: `CartResponse.cs`
-*   `POST api/Cart/addItem`: Adds a course to the cart (requires authentication).
-    *   Request body: `CreateCartItemRequest.cs`
-    *   Response: `CartResponse.cs`
-*   `PUT api/Cart/updateItem/{itemId}`: Updates the quantity of an item in the cart (requires authentication).
-    *   Request body: `UpdateCartItemRequest.cs`
-    *   Response: `UpdateCartItemRequest.cs`
-*   `POST api/Cart/applyDiscount?discount={discount}`: Applies a discount to the cart (requires authentication).
-    *   Response: `string`
-*   `DELETE api/Cart/clear`: Clears the cart (requires authentication).
-    *   Response: `string`
-
-### Admin Controller (Requires Admin Role)
-
-*   `GET api/Admin/dashboard`: Gets dashboard statistics.
-    *   Response: `AdminDashboardDto.cs`
-*   `POST api/Admin/instructors`: Creates a new instructor.
-    *   Request body: `CreateInstructorRequest.cs`
-    *   Response: `InstructorResponse.cs`
-*   `POST api/Admin/courses`: Creates a new course.
-    *   Request body: `CreateCourseRequest.cs`
-*   `GET api/Admin/instructors?PageNumber={pageNumber}&PageSize={pageSize}&SearchTerm={searchTerm}&SortBy={sortBy}&SortDirection={sortDirection}`: Gets all instructors with filtering and pagination.
-    *   Response: `PagedResult<InstructorResponse.cs>`
-*   `GET api/Admin/courses?PageNumber={pageNumber}&PageSize={pageSize}&SearchTerm={searchTerm}&SortBy={sortBy}&SortDirection={sortDirection}`: Gets all courses with filtering and pagination.
-    *   Response: `PagedResult<CourseResponse.cs>`
-*   `DELETE api/Admin/instructors/{id}`: Deletes an instructor.
-*   `DELETE api/Admin/courses/{id}`: Deletes a course.
+Detailed API documentation (including request/response schemas) can be generated using Swagger. Once the application is running, navigate to `https://localhost:{port}/swagger` in your browser.
 
 ## Contributing Guidelines
 
-We welcome contributions to the ByWay project! To contribute, please follow these steps:
+Contributions are welcome! Please follow these guidelines:
 
 1.  Fork the repository.
 2.  Create a new branch for your feature or bug fix.
-3.  Make your changes and commit them with clear, descriptive messages.
-4.  Submit a pull request to the `master` branch.
-
-Please ensure that your code adheres to the project's coding standards and includes appropriate unit tests.
+3.  Write clear, concise, and well-documented code.
+4.  Submit a pull request with a detailed description of your changes.
 
 ## License Information
 
-No license information was provided in the repository. Please specify a license to clarify the terms of use and distribution of this project. Examples include:
+This project does not currently have a specified license. All rights are reserved.
 
-*   **MIT License:** A permissive license that allows almost anything with the proper copyright notice.
-*   **Apache 2.0 License:** A permissive license with conditions addressing copyright and patent infringement.
-*   **GNU GPL v3:** A copyleft license that requires derivative works to be licensed under the GPL as well.
+## Contact/Support Information
 
-To add a license:
-
-1.  Choose a license from <https://choosealicense.com/>
-2.  Create a file named `LICENSE` in the root directory of the repository.
-3.  Copy the text of the license into the `LICENSE` file.
-4.  Update this README to reflect the chosen license.
-
-
+For questions or support, please contact [muhammadabdelgawad@example.com](mailto:muhammadabdelgawad@example.com).
