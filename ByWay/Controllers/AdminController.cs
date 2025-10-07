@@ -1,5 +1,4 @@
-﻿
-namespace ByWay.APIs.Controllers
+﻿namespace ByWay.APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -7,9 +6,15 @@ namespace ByWay.APIs.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
-        public AdminController(IAdminService adminService)
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+
+        public AdminController(IAdminService adminService, IUnitOfWork unitOfWork,
+            IMapper mapper)
         {
             _adminService = adminService;
+            _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         [HttpGet("dashboard")]
@@ -51,6 +56,44 @@ namespace ByWay.APIs.Controllers
             return Ok(courses);
         }
 
+        [HttpPut]
+        [Route("{id}")]
+        public async Task<IActionResult> UpdateInstructor(int id, [FromBody] UpdateInstructorRequest request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest(" Instructor Id Not Exists");
+            }
+            var instructor = await _unitOfWork.Instructors.GetByIdAsync(id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(request, instructor);
+            _unitOfWork.Instructors.Update(instructor);
+            await _unitOfWork.CompleteAsync();
+            var result = _mapper.Map<InstructorResponse>(instructor);
+            return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourseRequest request)
+        {
+            if (id != request.Id)
+            {
+                return BadRequest("Course Id Not Exists");
+            }
+            var course = await _unitOfWork.Courses.GetByIdAsync(id);
+            if (course == null)
+            {
+                return NotFound();
+            }
+            _mapper.Map(request, course);
+            _unitOfWork.Courses.Update(course);
+            await _unitOfWork.CompleteAsync();
+            return Ok("Updated Successfully");
+        }
+
         [HttpDelete("instructors/{id}")]
         public async Task<ActionResult> DeleteInstructor(int id)
         {
@@ -72,5 +115,7 @@ namespace ByWay.APIs.Controllers
             }
             return Ok("Deleted Successfully");
         }
+
+
     }
 }

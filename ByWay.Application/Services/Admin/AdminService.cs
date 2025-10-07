@@ -20,7 +20,7 @@
                 var instructor = await _unitOfWork.Instructors.GetByIdAsync(request.InstructorId);
                 if (instructor == null) return false;
 
-                var course = _mapper.Map<Course>(request);
+                var course = _mapper.Map<Domain.Entities.Course>(request);
                 await _unitOfWork.Courses.AddAsync(course);
                 await _unitOfWork.CompleteAsync();
                 return true;

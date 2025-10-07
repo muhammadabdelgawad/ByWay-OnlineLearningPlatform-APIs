@@ -20,3 +20,4 @@ global using Microsoft.Extensions.DependencyInjection;
 global using ByWay.Application.Abstraction.DTOs.Common;
 global using ByWay.Domain.Entities;
 global using ByWay.Domain.Enums;
+global using ByWay.Domain.Entities;
