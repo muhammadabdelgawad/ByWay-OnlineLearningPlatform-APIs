@@ -1,9 +1,4 @@
-﻿using AutoMapper;
-using ByWay.Application.Abstraction.DTOs.Course;
-using ByWay.Application.Contracts;
-using ByWay.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-
+﻿
 namespace ByWay.APIs.Controllers
 {
     [Route("api/[controller]")]
@@ -12,66 +7,28 @@ namespace ByWay.APIs.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        public CourseController(IUnitOfWork unitOfWork, IMapper mapper)
+        private readonly ICourseService _courseService;
+        public CourseController(IUnitOfWork unitOfWork, IMapper mapper , ICourseService courseService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _courseService = courseService;
         }
 
 
         [HttpGet]
-        public async Task<IActionResult> GetAllCourses()
+        public async Task<ActionResult> GetAllCourses([FromQuery] CourseFilterRequest request)
         {
-            var courses = _mapper.Map<IEnumerable<CourseResponse>>(await _unitOfWork.Courses.GetAllAsync());
+            var courses = await _courseService.GetAllCoursesAsync(request);
             return Ok(courses);
         }
 
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCourseById(int id)
         {
             var course = _mapper.Map<CourseResponse>(await _unitOfWork.Courses.GetByIdAsync(id));
             return Ok(course);
-        }
-
-
-
-        [HttpPost]
-        public async Task<IActionResult> CreateCourse([FromBody] CreateCourseRequest request)
-        {
-            var course = _mapper.Map<Course>(request);
-            await _unitOfWork.Courses.AddAsync(course);
-            await _unitOfWork.CompleteAsync();
-            return Ok("Created Successfuly");
-        }
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCourse(int id, [FromBody] UpdateCourseRequest request)
-        {
-            if (id != request.Id)
-            {
-                return BadRequest("Course Id Not Exists");
-            }
-            var course = await _unitOfWork.Courses.GetByIdAsync(id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-            _mapper.Map(request, course);
-            _unitOfWork.Courses.Update(course);
-            await _unitOfWork.CompleteAsync();
-            return Ok("Updated Successfully");
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCourse(int id) 
-        {
-            var course = await _unitOfWork.Courses.GetByIdAsync(id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-             _unitOfWork.Courses.Delete(course);
-            await _unitOfWork.CompleteAsync();
-            return Ok("Deleted Successfully");
         }
     }
 }

@@ -20,7 +20,7 @@
                 var instructor = await _unitOfWork.Instructors.GetByIdAsync(request.InstructorId);
                 if (instructor == null) return false;
 
-                var course = _mapper.Map<Course>(request);
+                var course = _mapper.Map<Domain.Entities.Course>(request);
                 await _unitOfWork.Courses.AddAsync(course);
                 await _unitOfWork.CompleteAsync();
                 return true;
@@ -39,40 +39,7 @@
             return _mapper.Map<InstructorResponse>(instructor);
         }
 
-        public async Task<bool> DeleteCourseAsync(int courseId)
-        {
-            try
-            {
-                var course = await _unitOfWork.Courses.GetByIdAsync(courseId);
-                if (course == null) return false;
-
-                _unitOfWork.Courses.Delete(course);
-                await _unitOfWork.CompleteAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        public async Task<bool> DeleteInstructorAsync(int instructorId)
-        {
-            try
-            {
-                var instructor = await _unitOfWork.Instructors.GetByIdAsync(instructorId);
-                if (instructor == null) return false;
-
-                _unitOfWork.Instructors.Delete(instructor);
-                await _unitOfWork.CompleteAsync();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
+       
         public async Task<PagedResult<InstructorResponse>> GetAllInstructorsAsync(InstructorFilterRequest request)
         {
             var instructors = await _unitOfWork.Instructors.GetAllAsync();
@@ -230,5 +197,40 @@
             var roles = await _userManager.GetRolesAsync(currentUser);
             return roles.Contains("Admin");
         }
+
+        public async Task<bool> DeleteCourseAsync(int courseId)
+        {
+            try
+            {
+                var course = await _unitOfWork.Courses.GetByIdAsync(courseId);
+                if (course == null) return false;
+
+                _unitOfWork.Courses.Delete(course);
+                await _unitOfWork.CompleteAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteInstructorAsync(int instructorId)
+        {
+            try
+            {
+                var instructor = await _unitOfWork.Instructors.GetByIdAsync(instructorId);
+                if (instructor == null) return false;
+
+                _unitOfWork.Instructors.Delete(instructor);
+                await _unitOfWork.CompleteAsync();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }
