@@ -1,9 +1,4 @@
-﻿using ByWay.Application.Abstraction.DTOs.Course;
-using ByWay.Application.Abstraction.DTOs.Instructor;
-using ByWay.Application.Abstractions.Admin;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authorization;
-
+﻿
 namespace ByWay.APIs.Controllers
 {
     [Route("api/[controller]")]

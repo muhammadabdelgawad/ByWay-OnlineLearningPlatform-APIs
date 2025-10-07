@@ -1,7 +1,4 @@
-﻿using ByWay.Application.Abstraction.DTOs.Auth;
-using ByWay.Application.Services.Auth;
-using ByWay.Domain.Entities.Identity;
-using ByWay.Infrastructure.Identity;
+﻿using ByWay.Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 

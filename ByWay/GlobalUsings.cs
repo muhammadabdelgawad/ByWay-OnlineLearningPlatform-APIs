@@ -1,0 +1,11 @@
+﻿global using AutoMapper;
+global using ByWay.Application.Abstraction.DTOs.Course;
+global using ByWay.Application.Abstraction.Repositories.Course;
+global using ByWay.Application.Contracts;
+global using Microsoft.AspNetCore.Mvc;
+global using ByWay.Application.Abstraction.DTOs.Instructor;
+global using ByWay.Application.Abstractions.Admin;
+global using Microsoft.AspNetCore.Authorization;
+global using ByWay.Application.Abstraction.DTOs.Auth;
+global using ByWay.Application.Services.Auth;
+global using ByWay.Domain.Entities.Identity;
