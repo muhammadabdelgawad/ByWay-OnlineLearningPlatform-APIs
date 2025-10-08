@@ -2,7 +2,7 @@
 
 ## Project Description
 
-ByWay is an e-learning platform backend API built using .NET. It provides functionalities for user authentication, course management, instructor management, and shopping cart operations. The API offers features for both regular users and administrative roles.
+ByWay is an e-learning platform backend API built using Onion Architecture and .NET Core It provides functionalities for user authentication, course management, instructor management, and shopping cart operations. The API offers features for both regular users and administrative roles.
 
 ## Features and Functionality
 
