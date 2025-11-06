@@ -7,7 +7,7 @@ namespace ByWay.Infrastructure
             IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("HostConnection"),
+                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
                     sqlOptions => sqlOptions.EnableRetryOnFailure())
             );
 
@@ -17,7 +17,7 @@ namespace ByWay.Infrastructure
 
 
             services.AddDbContext<IdentityAppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("HostIdentityConnection"),
+                options.UseSqlServer(configuration.GetConnectionString("IdentityConnection"),
                 sqlOptions => sqlOptions.EnableRetryOnFailure())
             );
 
