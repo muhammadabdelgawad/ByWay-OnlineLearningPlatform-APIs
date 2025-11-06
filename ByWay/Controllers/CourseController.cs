@@ -1,5 +1,4 @@
-﻿
-namespace ByWay.APIs.Controllers
+﻿namespace ByWay.APIs.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
